@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B48C7CF5-C4DD-40E8-82D9-FA73107F372A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>System</RootNamespace>
+    <AssemblyName>IniLib</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Properties\AssemblyInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collections\Generic\Empty.cs" />
+    <Compile Include="ComponentModel\ConverterCache.cs" />
+    <Compile Include="ComponentModel\Converters\BaseNumberConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\BooleanConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\CultureInfoConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\DecimalConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\DoubleConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\EncodingConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\Int16ConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\Int32ConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\Int64ConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\SingleConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\UInt16ConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\UInt32ConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\UInt64ConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\UriConverterExtended.cs" />
+    <Compile Include="ComponentModel\StringValueAttribute.cs" />
+    <Compile Include="Ini\Attributes\EntryAttribute.cs" />
+    <Compile Include="Ini\Attributes\SectionAttribute.cs" />
+    <Compile Include="Ini\Enum\BytesEncoding.cs" />
+    <Compile Include="Ini\Enum\LineBreaker.cs" />
+    <Compile Include="Ini\IniFile\Enum\IniFileCommentCharacter.cs" />
+    <Compile Include="Ini\IniFile\Enum\IniFileEntrySeparatorCharacter.cs" />
+    <Compile Include="Ini\IniFile\Enum\IniFileParsingMethod.cs" />
+    <Compile Include="Ini\IniFile\IniFileSettings.cs" />
+    <Compile Include="InternalTools\Collections.cs" />
+    <Compile Include="InternalTools\Convert.cs" />
+    <Compile Include="InternalTools\FileSystem.cs" />
+    <Compile Include="InternalTools\Messages.cs" />
+    <Compile Include="InternalTools\Numbers.cs" />
+    <Compile Include="InternalTools\Reflection.cs" />
+    <Compile Include="InternalTools\Strings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ResourcesCache.cs" />
+    <Compile Include="Text\Base16Encoding.cs" />
+    <Compile Include="Text\Base2Encoding.cs" />
+    <Compile Include="Text\Base32Encoding.cs" />
+    <Compile Include="Text\Base64Encoding.cs" />
+    <Compile Include="Text\Base8Encoding.cs" />
+    <Compile Include="Text\BaseEncoding.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
