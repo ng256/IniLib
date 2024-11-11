@@ -39,12 +39,12 @@ namespace System.ComponentModel
         public DoubleConverterExtended() : base(allowBaseEncoding: false, targetType: typeof(double)) { }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="Double"/> 
+        /// Converts a string representation of a number to a <see cref="double"/> 
         /// value using the specified radix.
         /// </summary>
         /// <param name="value">The string representation of the number.</param>
         /// <param name="radix">The base (radix) to use for conversion is unsupported.</param>
-        /// <returns>The converted <see cref="Double"/> value.</returns>
+        /// <returns>The converted <see cref="double"/> value.</returns>
         [Obsolete]
         protected override object ConvertFromString(string value, int radix)
         {
@@ -52,39 +52,27 @@ namespace System.ComponentModel
         }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="Double"/> 
-        /// value using the specified number format information.
-        /// </summary>
-        /// <param name="value">The string representation of the number.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="Double"/> value.</returns>
-        protected override object ConvertFromString(string value, NumberFormatInfo formatInfo)
-        {
-            return double.Parse(value, NumberStyles.Float, formatInfo);
-        }
-
-        /// <summary>
-        /// Converts a string representation of a number to a <see cref="Double"/> 
+        /// Converts a string representation of a number to a <see cref="double"/> 
         /// value using the specified culture information.
         /// </summary>
         /// <param name="value">The string representation of the number.</param>
         /// <param name="culture">The <see cref="CultureInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="Double"/> value.</returns>
+        /// <returns>The converted <see cref="double"/> value.</returns>
         protected override object ConvertFromString(string value, CultureInfo culture)
         {
             return double.Parse(value, culture);
         }
 
         /// <summary>
-        /// Converts a <see cref="Double"/> value to its string representation 
-        /// using the specified number format information.
+        /// Converts a <see cref="double"/> value to its string representation 
+        /// using the specified culture information.
         /// </summary>
-        /// <param name="value">The <see cref="Double"/> value.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for formatting.</param>
-        /// <returns>The string representation of the <see cref="Double"/> value.</returns>
-        protected override string ConvertToString(object value, NumberFormatInfo formatInfo)
+        /// <param name="value">The <see cref="double"/> value.</param>
+        /// <param name="culture">The <see cref="CultureInfo"/> used for conversion.</param>
+        /// <returns>The string representation of the <see cref="double"/> value.</returns>
+        protected override string ConvertToString(object value, CultureInfo culture)
         {
-            return ((double)value).ToString("R", formatInfo);
+            return ((double)value).ToString("R", culture);
         }
     }
 }

@@ -39,51 +39,39 @@ namespace System.ComponentModel
         public UInt64ConverterExtended() : base(typeof(ulong)) { }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="UInt64"/> 
+        /// Converts a string representation of a number to a <see cref="ulong"/> 
         /// value using the specified radix.
         /// </summary>
         /// <param name="value">The string representation of the number.</param>
         /// <param name="radix">The base (radix) to use for conversion (e.g., 10 for decimal, 16 for hexadecimal).</param>
-        /// <returns>The converted <see cref="UInt64"/> value.</returns>
+        /// <returns>The converted <see cref="ulong"/> value.</returns>
         protected override object ConvertFromString(string value, int radix)
         {
             return Convert.ToUInt64(value, radix);
         }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="UInt64"/> 
-        /// value using the specified number format information.
-        /// </summary>
-        /// <param name="value">The string representation of the number.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="UInt64"/> value.</returns>
-        protected override object ConvertFromString(string value, NumberFormatInfo formatInfo)
-        {
-            return ulong.Parse(value, NumberStyles.Integer, formatInfo);
-        }
-
-        /// <summary>
-        /// Converts a string representation of a number to a <see cref="UInt64"/> 
+        /// Converts a string representation of a number to a <see cref="ulong"/> 
         /// value using the specified culture information.
         /// </summary>
         /// <param name="value">The string representation of the number.</param>
         /// <param name="culture">The <see cref="CultureInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="UInt64"/> value.</returns>
+        /// <returns>The converted <see cref="ulong"/> value.</returns>
         protected override object ConvertFromString(string value, CultureInfo culture)
         {
             return ulong.Parse(value, culture);
         }
 
         /// <summary>
-        /// Converts a <see cref="UInt64"/> value to its string representation 
+        /// Converts a <see cref="ulong"/> value to its string representation 
         /// using the specified number format information.
         /// </summary>
-        /// <param name="value">The <see cref="UInt64"/> value.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for formatting.</param>
-        /// <returns>The string representation of the <see cref="UInt64"/> value.</returns>
-        protected override string ConvertToString(object value, NumberFormatInfo formatInfo)
+        /// <param name="value">The <see cref="ulong"/> value.</param>
+        /// <param name="culture">The <see cref="CultureInfo"/> used for conversion.</param>
+        /// <returns>The string representation of the <see cref="ulong"/> value.</returns>
+        protected override string ConvertToString(object value, CultureInfo culture)
         {
-            return ((ulong)value).ToString("G", formatInfo);
+            return ((ulong)value).ToString("G", culture);
         }
     }
 }

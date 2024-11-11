@@ -33,10 +33,7 @@ namespace System
          ************************************************************************************************/
 
         // Maintains a cache of type converters for improved performance
-        internal static ConverterCache Converters = new ConverterCache()
-        {
-            { typeof(int), new Int32Converter() }
-        };
+        internal static ConverterCache Converters = ConverterCache.Default;
 
         // Casts the given object to the specified type T.
         // If the source is null, it returns the default value of T.

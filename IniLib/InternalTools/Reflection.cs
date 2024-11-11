@@ -147,7 +147,7 @@ namespace System
             return null;
         }
 
-        // Registers base type converter for the specified type.
+        /*// Registers base type converter for the specified type.
         internal static bool RegisterConverter(this Type type)
         {
             try
@@ -177,6 +177,29 @@ namespace System
                 TypeConverterAttribute attribute = new TypeConverterAttribute(typeof(TConv));
                 TypeDescriptor.AddAttributes(type, attribute);
                 Converters.Add(type, converter: new TConv());
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        // Registers custom type converter for the specified type.
+        internal static bool RegisterConverter<TDest, TConv>() where TConv : TypeConverter, new()
+        {
+            return typeof(TDest).RegisterConverter<TConv>();
+        }*/
+
+        // Registers custom type converter for the specified type.
+        internal static bool RegisterConverter<TConv>(this Type type) where TConv : TypeConverter, new()
+        {
+            try
+            {
+                if (type == null || type.IsDefined(typeof(TypeConverterAttribute), false)) return false;
+                TypeConverterAttribute attribute = new TypeConverterAttribute(typeof(TConv));
+                TypeDescriptor.AddAttributes(type, attribute);
             }
             catch
             {

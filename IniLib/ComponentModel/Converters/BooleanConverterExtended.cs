@@ -1,21 +1,15 @@
-﻿/*************************************************************** 
+﻿/***************************************************************
 
-•   File: BaseNumberConverterExtended.cs
+•   File: BooleanConverterEx.cs
 
 •   Description
 
-    The   BaseNumberConverterExtended    class    extends    the
-    functionality   of  the  standard TypeConverter by providing
-    additional  capabilities   for    converting   numbers.   In
-    particular, it supports conversion between different numeral
-    systems,  such  as decimal,  hexadecimal, binary, and octal.
-    The class handles custom base  encoding formats with various
-    prefixes  and  suffixes,   and   can   handle  culture-based
-    formatting for number conversions.
-
-•   Copyright
-
-    © Pavel Bashkardin, 2022
+    The  BooleanConverterEx class  extends  the functionality of
+    the standard class by providing additional  capabilities for
+    converting  bool values. In  particular,  it  allows  you to
+    convert  bool values  ​​not  only to the strings  "True"  and
+    "False", but  also to  other equivalent representations such
+    as "1" or "0",  "On" or "Off",  and "Enabled" or "Disabled".
 
 ***************************************************************/
 
@@ -31,7 +25,7 @@ namespace System.ComponentModel
     ///     objects to and from various other representations.
     ///		It is an extension of the standard class <see cref="BooleanConverter"/>.
     /// </summary>
-    public class BooleanConverterExtended : BooleanConverter
+    public class BooleanConverterExtended : TypeConverter
     {
         private static readonly TypeConverter NumberConverter = new Int32ConverterExtended();
 
@@ -66,7 +60,7 @@ namespace System.ComponentModel
         static BooleanConverterExtended()
         {
             _registered = false;
-            Register();
+            //Register();
         }
 
         // Attempts to parse the given object value as a boolean value.
@@ -79,6 +73,9 @@ namespace System.ComponentModel
             {
                 case null:
                     break;
+
+                case bool b:
+                    return b;
 
                 case int i:
                     result = i != 0;
@@ -101,17 +98,19 @@ namespace System.ComponentModel
 
                     break;
 
+                case IConvertible conv:
+                    if (TryChangeType(typeof(int), culture, value, out obj))
+                    {
+                        result = (int)obj != 0;
+                        return true;
+                    }
+                    break;
+
                 // For primitive types, try converting the value to an integer and then parsing it.
                 default:
 
-                    if (TryChangeType(typeof(int), culture, value, out obj))
-                    {
-                        result = (int) obj != 0;
-                        return true;
-                    }
+                    return false;
 
-                    break;
-                    
             }
 
             return false;
@@ -195,7 +194,7 @@ namespace System.ComponentModel
                 case TypeCode.Int32 when value is bool c:
                     return c ? 1 : 0;
                 case TypeCode.String when value is bool c:
-                    return c ? "True" : "False";
+                    return c ? bool.TrueString : bool.FalseString;
                 default:
                     return base.ConvertTo(context, culture, value, destinationType);
             }

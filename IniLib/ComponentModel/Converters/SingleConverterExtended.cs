@@ -40,12 +40,12 @@ namespace System.ComponentModel
         public SingleConverterExtended() : base(allowBaseEncoding: false, targetType: typeof(float)) { }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="Single"/> 
+        /// Converts a string representation of a number to a <see cref="float"/> 
         /// value using the specified radix.
         /// </summary>
         /// <param name="value">The string representation of the number.</param>
         /// <param name="radix">The base (radix) to use for conversion is unsupported.</param>
-        /// <returns>The converted <see cref="Single"/> value.</returns>
+        /// <returns>The converted <see cref="float"/> value.</returns>
         [Obsolete]
         protected override object ConvertFromString(string value, int radix)
         {
@@ -53,39 +53,27 @@ namespace System.ComponentModel
         }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="Single"/> 
-        /// value using the specified number format information.
-        /// </summary>
-        /// <param name="value">The string representation of the number.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="Single"/> value.</returns>
-        protected override object ConvertFromString(string value, NumberFormatInfo formatInfo)
-        {
-            return float.Parse(value, NumberStyles.Float, formatInfo);
-        }
-
-        /// <summary>
-        /// Converts a string representation of a number to a <see cref="Single"/> 
+        /// Converts a string representation of a number to a <see cref="float"/> 
         /// value using the specified culture information.
         /// </summary>
         /// <param name="value">The string representation of the number.</param>
         /// <param name="culture">The <see cref="CultureInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="Single"/> value.</returns>
+        /// <returns>The converted <see cref="float"/> value.</returns>
         protected override object ConvertFromString(string value, CultureInfo culture)
         {
             return float.Parse(value, culture);
         }
 
         /// <summary>
-        /// Converts a <see cref="Single"/> value to its string representation 
+        /// Converts a <see cref="float"/> value to its string representation 
         /// using the specified number format information.
         /// </summary>
-        /// <param name="value">The <see cref="Single"/> value.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for formatting.</param>
-        /// <returns>The string representation of the <see cref="Single"/> value.</returns>
-        protected override string ConvertToString(object value, NumberFormatInfo formatInfo)
+        /// <param name="value">The <see cref="float"/> value.</param>
+        /// <param name="culture">The <see cref="CultureInfo"/> used for conversion.</param>
+        /// <returns>The string representation of the <see cref="float"/> value.</returns>
+        protected override string ConvertToString(object value, CultureInfo culture)
         {
-            return ((float)value).ToString("R", formatInfo);
+            return ((float)value).ToString("R", culture);
         }
     }
 }

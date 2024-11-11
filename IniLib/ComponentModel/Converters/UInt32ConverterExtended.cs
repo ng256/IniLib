@@ -39,51 +39,39 @@ namespace System.ComponentModel
         public UInt32ConverterExtended() : base(typeof(uint)) { }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="UInt32"/> 
+        /// Converts a string representation of a number to a <see cref="uint"/> 
         /// value using the specified radix.
         /// </summary>
         /// <param name="value">The string representation of the number.</param>
         /// <param name="radix">The base (radix) to use for conversion (e.g., 10 for decimal, 16 for hexadecimal).</param>
-        /// <returns>The converted <see cref="UInt32"/> value.</returns>
+        /// <returns>The converted <see cref="uint"/> value.</returns>
         protected override object ConvertFromString(string value, int radix)
         {
             return Convert.ToUInt32(value, radix);
         }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="UInt32"/> 
-        /// value using the specified number format information.
-        /// </summary>
-        /// <param name="value">The string representation of the number.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="UInt32"/> value.</returns>
-        protected override object ConvertFromString(string value, NumberFormatInfo formatInfo)
-        {
-            return uint.Parse(value, NumberStyles.Integer, formatInfo);
-        }
-
-        /// <summary>
-        /// Converts a string representation of a number to a <see cref="UInt32"/> 
+        /// Converts a string representation of a number to a <see cref="uint"/> 
         /// value using the specified culture information.
         /// </summary>
         /// <param name="value">The string representation of the number.</param>
         /// <param name="culture">The <see cref="CultureInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="UInt32"/> value.</returns>
+        /// <returns>The converted <see cref="uint"/> value.</returns>
         protected override object ConvertFromString(string value, CultureInfo culture)
         {
             return uint.Parse(value, culture);
         }
 
         /// <summary>
-        /// Converts a <see cref="UInt32"/> value to its string representation 
+        /// Converts a <see cref="uint"/> value to its string representation 
         /// using the specified number format information.
         /// </summary>
-        /// <param name="value">The <see cref="UInt32"/> value.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for formatting.</param>
-        /// <returns>The string representation of the <see cref="UInt32"/> value.</returns>
-        protected override string ConvertToString(object value, NumberFormatInfo formatInfo)
+        /// <param name="value">The <see cref="uint"/> value.</param>
+        /// <param name="culture">The <see cref="CultureInfo"/> used for conversion.</param>
+        /// <returns>The string representation of the <see cref="uint"/> value.</returns>
+        protected override string ConvertToString(object value, CultureInfo culture)
         {
-            return ((uint)value).ToString("G", formatInfo);
+            return ((uint)value).ToString("G", culture);
         }
     }
 }

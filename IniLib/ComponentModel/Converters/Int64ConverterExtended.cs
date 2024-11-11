@@ -52,18 +52,6 @@ namespace System.ComponentModel
 
         /// <summary>
         /// Converts a string representation of a number to an <see cref="Int64"/> 
-        /// value using the specified number format information.
-        /// </summary>
-        /// <param name="value">The string representation of the number.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="Int64"/> value.</returns>
-        protected override object ConvertFromString(string value, NumberFormatInfo formatInfo)
-        {
-            return long.Parse(value, NumberStyles.Integer, formatInfo);
-        }
-
-        /// <summary>
-        /// Converts a string representation of a number to an <see cref="Int64"/> 
         /// value using the specified culture information.
         /// </summary>
         /// <param name="value">The string representation of the number.</param>
@@ -79,11 +67,11 @@ namespace System.ComponentModel
         /// using the specified number format information.
         /// </summary>
         /// <param name="value">The <see cref="Int64"/> value.</param>
-        /// <param name="formatInfo">The <see cref="NumberFormatInfo"/> used for formatting.</param>
+        /// <param name="culture">The <see cref="CultureInfo"/> used for conversion.</param>
         /// <returns>The string representation of the <see cref="Int64"/> value.</returns>
-        protected override string ConvertToString(object value, NumberFormatInfo formatInfo)
+        protected override string ConvertToString(object value, CultureInfo culture)
         {
-            return ((long)value).ToString("G", formatInfo);
+            return ((long)value).ToString("G", culture);
         }
     }
 }

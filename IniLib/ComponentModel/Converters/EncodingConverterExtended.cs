@@ -23,6 +23,8 @@ namespace System.ComponentModel
     /// </summary>
     public class EncodingConverterExtended : TypeConverter
     {
+        private static readonly TypeConverter NumberConverter = new Int32ConverterExtended();
+
         private static bool _registered;
 
         /// <summary>
@@ -57,10 +59,10 @@ namespace System.ComponentModel
                     return Encoding.GetEncoding(codePage);
                 case string name:
                 {
-                    return TryChangeType(typeof(int), culture, name, out object codePage) 
+                    return NumberConverter.TryConvertFromString(culture, name, out object codePage)
                         ? Encoding.GetEncoding((int)codePage)
                         : Encoding.GetEncoding(name);
-                }
+                    }
                 default:
                 {
                     return TryChangeType(typeof(int), culture, value, out object codePage)

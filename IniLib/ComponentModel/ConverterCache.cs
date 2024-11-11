@@ -28,12 +28,16 @@ using static System.InternalTools;
 
 namespace System.ComponentModel
 {
+
     internal sealed class ConverterCache : Hashtable
     {
+        // The default cache instance containing standard converters.
         public static ConverterCache Default { get; } = new ConverterCache();
 
-        public static ConverterCache Extended { get; } = new ConverterCache()
+        // The extended cache instance containing customized converters for specific types.
+        public static ConverterCache Extended { get; } = new ConverterCache
         {
+            { typeof(bool), new BooleanConverterExtended() },
             { typeof(short), new Int16ConverterExtended() },
             { typeof(ushort), new UInt16ConverterExtended() },
             { typeof(int), new Int32ConverterExtended() },
@@ -43,10 +47,11 @@ namespace System.ComponentModel
             { typeof(float), new SingleConverterExtended() },
             { typeof(double), new DoubleConverterExtended() },
             { typeof(CultureInfo), new CultureInfoConverterExtended() },
-            //{ typeof(Encoding), new Encodingc() },
+            { typeof(Encoding), new EncodingConverterExtended() },
         };
 
-        public ConverterCache() : base()
+        // Initializes a new instance of the ConverterCache class.
+        private ConverterCache() : base()
         {
         }
 
@@ -60,6 +65,7 @@ namespace System.ComponentModel
             return converter;
         }
 
+        // Override based method
         public override void Add(object key, object value)
         {
             if (key is Type type && value is TypeConverter converter)
