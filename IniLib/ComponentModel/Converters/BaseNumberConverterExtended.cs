@@ -11,7 +11,7 @@
     bases (binary, octal,  hexadecimal),  with optional  support
     for base encoding control.
 
-•   Copyright
+•   Copyright 1
 
     © Pavel Bashkardin, 2022
 
