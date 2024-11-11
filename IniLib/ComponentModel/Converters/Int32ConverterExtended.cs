@@ -25,13 +25,13 @@ namespace System.ComponentModel
 {
     /// <summary>
     /// The <see cref="Int32ConverterExtended"/> class extends the functionality 
-    /// of the <see cref="BaseNumberConverterExtended"/> class for converting 
+    /// of the <see cref="NumberConverterExtended"/> class for converting 
     /// Int32 (signed 32-bit integer) values. It supports parsing strings with different 
     /// number system prefixes (hexadecimal, binary, octal, etc.) and converting 
     /// Int32 values to their string representations using custom formatting.
     /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
-    public class Int32ConverterExtended : BaseNumberConverterExtended
+    public class Int32ConverterExtended : NumberConverterExtended
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Int32ConverterExtended"/> class.

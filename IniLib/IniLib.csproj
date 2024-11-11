@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="Collections\Generic\Empty.cs" />
     <Compile Include="ComponentModel\ConverterCache.cs" />
-    <Compile Include="ComponentModel\Converters\BaseNumberConverterExtended.cs" />
+    <Compile Include="ComponentModel\Converters\NumberConverterExtended.cs" />
     <Compile Include="ComponentModel\Converters\BooleanConverterExtended.cs" />
     <Compile Include="ComponentModel\Converters\CultureInfoConverterExtended.cs" />
     <Compile Include="ComponentModel\Converters\DecimalConverterExtended.cs" />

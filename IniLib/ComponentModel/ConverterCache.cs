@@ -61,7 +61,7 @@ namespace System.ComponentModel
         {
             if (converter is StringConverter) return null;
             if (ContainsKey(type)) Remove(type);
-            this[type] = converter ?? (converter = TypeDescriptor.GetConverter(type));
+            base.Add(type, converter ?? (converter = TypeDescriptor.GetConverter(type)));
             return converter;
         }
 

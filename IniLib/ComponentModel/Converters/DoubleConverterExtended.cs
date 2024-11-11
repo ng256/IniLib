@@ -25,13 +25,13 @@ namespace System.ComponentModel
 {
     /// <summary>
     /// The <see cref="DoubleConverterExtended"/> class extends the functionality 
-    /// of the <see cref="BaseNumberConverterExtended"/> class for converting 
+    /// of the <see cref="NumberConverterExtended"/> class for converting 
     /// Double (double-precision floating point) values. It supports parsing strings 
     /// with different number system prefixes (e.g., decimal) and converting 
     /// Double values to their string representations using custom formatting.
     /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
-    public class DoubleConverterExtended : BaseNumberConverterExtended
+    public class DoubleConverterExtended : NumberConverterExtended
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DoubleConverterExtended"/> class.

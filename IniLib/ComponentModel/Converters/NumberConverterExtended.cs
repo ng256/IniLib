@@ -1,10 +1,10 @@
 ﻿/***************************************************************
 
-•   File: BaseNumberConverterExtended.cs
+•   File: NumberConverterExtended.cs
 
 •   Description
 
-    The  BaseNumberConverterExtended abstract   class provides a
+    The NumberConverterExtended is an abstract  class provides a
     base  implementation for converting  numeric  values  to and
     from  their  string   representations. This   class includes
     methods that  handle strings with prefixes indicating number
@@ -20,7 +20,6 @@
 
 using System.Globalization;
 using System.Security.Permissions;
-using static System.InternalTools;
 
 namespace System.ComponentModel
 {
@@ -28,7 +27,7 @@ namespace System.ComponentModel
     /// Abstract base class providing functionality for converting numeric values to and from their string representations.
     /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
-    public abstract class BaseNumberConverterExtended : TypeConverter
+    public abstract class NumberConverterExtended : TypeConverter
     {
         /// <summary>
         /// Indicates if encoding with specific base prefixes (e.g., hexadecimal, binary) is allowed.
@@ -68,7 +67,7 @@ namespace System.ComponentModel
         /// Initializes a new instance of the BaseNumberConverterExtended class with the specified target type.
         /// </summary>
         /// <param name="targetType">The target type for conversions.</param>
-        protected BaseNumberConverterExtended(Type targetType)
+        protected NumberConverterExtended(Type targetType)
         {
             TargetType = targetType;
         }
@@ -78,7 +77,7 @@ namespace System.ComponentModel
         /// </summary>
         /// <param name="allowBaseEncoding">Specifies whether base encoding is allowed.</param>
         /// <param name="targetType">The target type for conversions.</param>
-        protected BaseNumberConverterExtended(bool allowBaseEncoding, Type targetType)
+        protected NumberConverterExtended(bool allowBaseEncoding, Type targetType)
         {
             AllowBaseEncoding = allowBaseEncoding;
             TargetType = targetType;
@@ -105,53 +104,43 @@ namespace System.ComponentModel
             {
                 // Handle string input
                 case string str when (str = str.Trim()).Length > 0:
-                    try
+
+                    // Handle encoding-specific prefixes if allowed.
+                    if (AllowBaseEncoding)
                     {
-                        // If the string consists entirely of digits, parse it directly as decimal.
-                        if (char.IsDigit(str, 0) && char.IsDigit(str, str.Length - 1))
-                        {
-                            return ConvertFromString(str, culture);
-                        }
+                        // Hexadecimal format, prefix #, &, $, 0x, &h or suffix h.
+                        if (str[0] == '#' || str[0] == '&' || str[0] == '$')
+                            return ConvertFromString(str.Substring(1), 16);
 
-                        // Handle encoding-specific prefixes if allowed.
-                        if (AllowBaseEncoding)
-                        {
-                            // Hexadecimal format, prefix #, &, $, 0x, &h or suffix h.
-                            if (str[0] == '#' || str[0] == '&' || str[0] == '$')
-                                return ConvertFromString(str.Substring(1), 16);
+                        if (str.EndsWith("h", comparison))
+                            return ConvertFromString(str.Substring(0, str.Length - 1), 16);
 
-                            if (str.EndsWith("h", comparison))
-                                return ConvertFromString(str.Substring(0, str.Length - 1), 16);
+                        if (str.StartsWith("0x", comparison)
+                            || str.StartsWith("&h", comparison))
+                            return ConvertFromString(str.Substring(2), 16);
 
-                            if (str.StartsWith("0x", comparison) || str.StartsWith("&h", comparison))
-                                return ConvertFromString(str.Substring(2), 16);
+                        // Binary format, prefix %, 0b or suffix b.
+                        if (str[0] == '%')
+                            return ConvertFromString(str.Substring(1), 2);
 
-                            // Binary format, prefix %, 0b or suffix b.
-                            if (str[0] == '%')
-                                return ConvertFromString(str.Substring(1), 2);
+                        if (str.StartsWith("0b", comparison))
+                            return ConvertFromString(str.Substring(2), 2);
 
-                            if (str.StartsWith("0b", comparison))
-                                return ConvertFromString(str.Substring(2), 2);
+                        if (str.EndsWith("b", comparison))
+                            return ConvertFromString(str.Substring(0, str.Length - 1), 2);
 
-                            if (str.EndsWith("b", comparison))
-                                return ConvertFromString(str.Substring(0, str.Length - 1), 2);
+                        // Octal format, prefixes 0o, &o, 8# or suffix o.
+                        if (str.StartsWith("0o", comparison)
+                            || str.StartsWith("&o", comparison)
+                            || str.StartsWith("8#"))
+                            return ConvertFromString(str.Substring(2), 8);
 
-                            // Octal format, prefixes 0o, &o, 8# or suffix o.
-                            if (str.StartsWith("0o", comparison) || str.StartsWith("&o", comparison) || str.StartsWith("8#"))
-                                return ConvertFromString(str.Substring(2), 8);
-
-                            if (str.EndsWith("o", comparison))
-                                return ConvertFromString(str.Substring(0, str.Length - 1), 8);
-                        }
-
-                        // Default to parsing the string as a decimal number.
-                        return ConvertFromString(str, culture);
+                        if (str.EndsWith("o", comparison))
+                            return ConvertFromString(str.Substring(0, str.Length - 1), 8);
                     }
-                    catch (Exception e)
-                    {
-                        // If parsing fails, throw an error with details
-                        throw new Exception(GetResourceString("ConvertInvalidPrimitive", str, TargetType.Name), e);
-                    }
+
+                    // Default to parsing the string as a decimal number.
+                    return ConvertFromString(str, culture);
 
                 // Handle convertible types by changing them to the target type
                 case IConvertible conv:

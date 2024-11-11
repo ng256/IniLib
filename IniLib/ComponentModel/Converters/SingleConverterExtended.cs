@@ -26,13 +26,13 @@ namespace System.ComponentModel
 {
     /// <summary>
     /// The <see cref="SingleConverterExtended"/> class extends the functionality 
-    /// of the <see cref="BaseNumberConverterExtended"/> class for converting 
+    /// of the <see cref="NumberConverterExtended"/> class for converting 
     /// Single (single-precision floating point) values. It supports parsing strings 
     /// with different number system prefixes (e.g., decimal) and converting 
     /// Single values to their string representations using custom formatting.
     /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
-    public class SingleConverterExtended : BaseNumberConverterExtended
+    public class SingleConverterExtended : NumberConverterExtended
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SingleConverterExtended"/> class.

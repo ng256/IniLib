@@ -28,13 +28,13 @@ namespace System.ComponentModel
 
     /// <summary>
     /// The <see cref="DecimalConverterExtended"/> class extends the functionality 
-    /// of the <see cref="BaseNumberConverterExtended"/> class for converting 
+    /// of the <see cref="NumberConverterExtended"/> class for converting 
     /// Decimal (128 bit-precision floating point) values. It supports parsing strings 
     /// with different number system prefixes (e.g., decimal) and converting 
     /// Decimal values to their string representations using custom formatting.
     /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
-    public class DecimalConverterExtended : BaseNumberConverterExtended
+    public class DecimalConverterExtended : NumberConverterExtended
     {
         public DecimalConverterExtended() : base(allowBaseEncoding: false, targetType: typeof(decimal)) { }
 

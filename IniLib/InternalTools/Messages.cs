@@ -42,37 +42,40 @@ namespace System
         // Gets mscorlib internal error message.
         internal static string GetResourceString(string resourceName)
         {
-            return Resources.MSCorLib.GetString(resourceName);
+            return Resources.MSCorLib.GetString(resourceName) ?? string.Empty;
         }
 
         // Gets assembly internal error message.
         internal static string GetResourceString(this Assembly assembly, string resourceName)
         {
-            return Resources[assembly, resourceName];
+            return Resources[assembly, resourceName] ?? string.Empty;
         }
 
         // Gets parametrized error message for assembly contains the specified type.
         internal static string GetResourceString<T>(string resourceName)
         {
-            return Resources[typeof(T),resourceName];
+            return Resources[typeof(T), resourceName] ?? string.Empty;
         }
 
         // Gets parametrized mscorlib internal error message.
         internal static string GetResourceString(string resourceName, params object[] args)
         {
-            return string.Format(GetResourceString(resourceName), args);
+            string format = GetResourceString(resourceName);
+            return string.Format(format, args);
         }
 
         // Gets parametrized assembly internal error message.
         internal static string GetResourceString(this Assembly assembly, string resourceName, params object[] args)
         {
-            return string.Format(assembly.GetResourceString(resourceName), args);
+            string format = assembly.GetResourceString(resourceName);
+            return string.Format(format, args);
         }
 
         // Gets parametrized error message for assembly contains the specified type.
         internal static string GetResourceString<T>(string resourceName, params object[] args)
         {
-            return string.Format(GetResourceString<T>(resourceName), args);
+            string format = GetResourceString<T>(resourceName);
+            return string.Format(format, args);
         }
     }
 }

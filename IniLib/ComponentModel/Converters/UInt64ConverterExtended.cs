@@ -25,13 +25,13 @@ namespace System.ComponentModel
 {
     /// <summary>
     /// The <see cref="UInt64ConverterExtended"/> class extends the functionality 
-    /// of the <see cref="BaseNumberConverterExtended"/> class for converting 
+    /// of the <see cref="NumberConverterExtended"/> class for converting 
     /// UInt64 (unsigned 64-bit integer) values. It supports parsing strings with different 
     /// number system prefixes (hexadecimal, binary, octal, etc.) and converting 
     /// UInt64 values to their string representations using custom formatting.
     /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
-    public class UInt64ConverterExtended : BaseNumberConverterExtended
+    public class UInt64ConverterExtended : NumberConverterExtended
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UInt64ConverterExtended"/> class.

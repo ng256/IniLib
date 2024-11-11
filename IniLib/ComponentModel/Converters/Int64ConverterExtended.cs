@@ -25,13 +25,13 @@ namespace System.ComponentModel
 {
     /// <summary>
     /// The <see cref="Int64ConverterExtended"/> class extends the functionality 
-    /// of the <see cref="BaseNumberConverterExtended"/> class for converting 
+    /// of the <see cref="NumberConverterExtended"/> class for converting 
     /// Int64 (signed 64-bit integer) values. It supports parsing strings with different 
     /// number system prefixes (hexadecimal, binary, octal, etc.) and converting 
     /// Int64 values to their string representations using custom formatting.
     /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
-    public class Int64ConverterExtended : BaseNumberConverterExtended
+    public class Int64ConverterExtended : NumberConverterExtended
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Int64ConverterExtended"/> class.
