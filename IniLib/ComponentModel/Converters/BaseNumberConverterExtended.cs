@@ -1,44 +1,104 @@
-﻿using System.Globalization;
+/***************************************************************
+
+•   File: BaseNumberConverterExtended.cs
+
+•   Description
+
+    The  BaseNumberConverterExtended abstract   class provides a
+    base  implementation for converting  numeric  values  to and
+    from  their  string   representations. This   class includes
+    methods that  handle strings with prefixes indicating number
+    bases (binary, octal,  hexadecimal),  with optional  support
+    for base encoding control.
+
+•   Copyright
+
+    © Pavel Bashkardin, 2022
+
+***************************************************************/
+
+using System.Globalization;
 using System.Security.Permissions;
 using static System.InternalTools;
 
 namespace System.ComponentModel
 {
+    /// <summary>
+    /// Abstract base class providing functionality for converting numeric values to and from their string representations.
+    /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
     public abstract class BaseNumberConverterExtended : TypeConverter
     {
+        /// <summary>
+        /// Indicates if encoding with specific base prefixes (e.g., hexadecimal, binary) is allowed.
+        /// </summary>
         protected bool AllowBaseEncoding = true;
 
+        /// <summary>
+        /// Specifies the target type to which the conversion will be performed.
+        /// </summary>
         protected Type TargetType;
 
+        /// <summary>
+        /// Converts the given string value to the target type based on the specified number base (radix).
+        /// </summary>
+        /// <param name="value">The string to convert.</param>
+        /// <param name="radix">The numeric base (e.g., 2 for binary, 8 to octal and 16 for hexadecimal).</param>
+        /// <returns>An object representing the converted value.</returns>
         protected abstract object ConvertFromString(string value, int radix);
 
+        /// <summary>
+        /// Converts the given string value to the target type based on the specified format information.
+        /// </summary>
+        /// <param name="value">The string to convert.</param>
+        /// <param name="formatInfo">The format information to use during conversion.</param>
+        /// <returns>An object representing the converted value.</returns>
         protected abstract object ConvertFromString(string value, NumberFormatInfo formatInfo);
 
+        /// <summary>
+        /// Converts the given string value to the target type based on the specified culture information.
+        /// </summary>
+        /// <param name="value">The string to convert.</param>
+        /// <param name="culture">The culture information to use during conversion.</param>
+        /// <returns>An object representing the converted value.</returns>
         protected abstract object ConvertFromString(string value, CultureInfo culture);
 
+        /// <summary>
+        /// Converts the given value to a string representation based on the specified format information.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="formatInfo">The format information to use during conversion.</param>
+        /// <returns>A string representation of the value.</returns>
         protected abstract string ConvertToString(object value, NumberFormatInfo formatInfo);
 
+        /// <summary>
+        /// Initializes a new instance of the BaseNumberConverterExtended class with the specified target type.
+        /// </summary>
+        /// <param name="targetType">The target type for conversions.</param>
         protected BaseNumberConverterExtended(Type targetType)
         {
             TargetType = targetType;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the BaseNumberConverterExtended class with the specified encoding option and target type.
+        /// </summary>
+        /// <param name="allowBaseEncoding">Specifies whether base encoding is allowed.</param>
+        /// <param name="targetType">The target type for conversions.</param>
         protected BaseNumberConverterExtended(bool allowBaseEncoding, Type targetType)
         {
             AllowBaseEncoding = allowBaseEncoding;
             TargetType = targetType;
         }
 
+        /// <inheritdoc />
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             return sourceType.IsPrimitive || sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
         }
 
-        public override object ConvertFrom(
-            ITypeDescriptorContext context,
-            CultureInfo culture,
-            object value)
+        /// <inheritdoc />
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             // Use case-insensitive comparison for base prefixes
             const StringComparison comparison = StringComparison.OrdinalIgnoreCase;
@@ -112,12 +172,8 @@ namespace System.ComponentModel
             return base.ConvertFrom(context, culture, value);
         }
 
-
-        public override object ConvertTo(
-            ITypeDescriptorContext context,
-            CultureInfo culture,
-            object value,
-            Type destinationType)
+        /// <inheritdoc />
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == null)
                 throw new ArgumentNullException(nameof(destinationType));
@@ -132,6 +188,7 @@ namespace System.ComponentModel
             return destinationType.IsPrimitive ? Convert.ChangeType(value, destinationType, culture) : base.ConvertTo(context, culture, value, destinationType);
         }
 
+        /// <inheritdoc />
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
             return destinationType.IsPrimitive || base.CanConvertTo(context, destinationType);
