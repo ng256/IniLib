@@ -5,14 +5,14 @@ using System.Text.RegularExpressions;
 namespace System.ComponentModel
 {
     /// <summary>
-    /// An extended URI type converter that can handle various URL formats.
+    ///     An extended URI type converter that can handle various URL formats.
     /// </summary>
     public class UriConverterExtended : UriTypeConverter
     {
         private static bool _registered;
 
         /// <summary>
-        ///		Register <see cref="UriConverterExtended"/> as default converter for <see cref="Uri"/> class.
+        ///     Register <see cref="UriConverterExtended"/> as default converter for <see cref="Uri"/> class.
         /// </summary>
         public static void Register()
         {
@@ -26,7 +26,7 @@ namespace System.ComponentModel
         }
 
         /// <summary>
-        /// A dictionary that maps well-known port numbers to their corresponding URL schemes.
+        ///     A dictionary that maps well-known port numbers to their corresponding URL schemes.
         /// </summary>
         private static readonly Dictionary<int, string> PortToSchemeMap = new Dictionary<int, string>
         {
@@ -52,12 +52,20 @@ namespace System.ComponentModel
         };
 
         /// <summary>
-        /// Converts the specified object to a Uri instance.
+        ///     Converts the specified object to a Uri instance.
         /// </summary>
-        /// <param name="context">The type descriptor context.</param>
-        /// <param name="culture">The culture information.</param>
-        /// <param name="value">The object to convert.</param>
-        /// <returns>The converted Uri instance.</returns>
+        /// <param name="context">
+        ///     The type descriptor context.
+        /// </param>
+        /// <param name="culture">
+        ///     The culture information.
+        /// </param>
+        /// <param name="value">
+        ///     The object to convert.
+        /// </param>
+        /// <returns>
+        ///     The converted Uri instance.
+        /// </returns>
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             // Use a regular expression to parse the URL string.
@@ -95,13 +103,23 @@ namespace System.ComponentModel
         }
 
         /// <summary>
-        /// Converts the specified Uri object to a string.
+        ///     Converts the specified Uri object to a string.
         /// </summary>
-        /// <param name="context">The type descriptor context.</param>
-        /// <param name="culture">The culture information.</param>
-        /// <param name="value">The object to convert.</param>
-        /// <param name="destinationType">The destination type.</param>
-        /// <returns>The converted string representation of the Uri.</returns>
+        /// <param name="context">
+        ///     The type descriptor context.
+        /// </param>
+        /// <param name="culture">
+        ///     The culture information.
+        /// </param>
+        /// <param name="value">
+        ///     The object to convert.
+        /// </param>
+        /// <param name="destinationType">
+        ///     The destination type.
+        /// </param>
+        /// <returns>
+        ///     The converted string representation of the Uri.
+        /// </returns>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
             Type destinationType)
         {

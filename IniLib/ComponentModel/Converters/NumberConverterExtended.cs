@@ -24,59 +24,83 @@ using System.Security.Permissions;
 namespace System.ComponentModel
 {
     /// <summary>
-    /// Abstract base class providing functionality for converting numeric values to and from their string representations.
+    ///    Abstract base class providing functionality for converting numeric values to and from their string representations.
     /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
     public abstract class NumberConverterExtended : TypeConverter
     {
         /// <summary>
-        /// Indicates if encoding with specific base prefixes (e.g., hexadecimal, binary) is allowed.
+        ///    Indicates if encoding with specific base prefixes (e.g., hexadecimal, binary) is allowed.
         /// </summary>
         protected bool AllowBaseEncoding = true;
 
         /// <summary>
-        /// Specifies the target type to which the conversion will be performed.
+        ///    Specifies the target type to which the conversion will be performed.
         /// </summary>
         protected Type TargetType;
 
         /// <summary>
-        /// Converts the given string value to the target type based on the specified number base (radix).
+        ///    Converts the given string value to the target type based on the specified number base (radix).
         /// </summary>
-        /// <param name="value">The string to convert.</param>
-        /// <param name="radix">The numeric base (e.g., 2 for binary, 16 for hexadecimal).</param>
-        /// <returns>An object representing the converted value.</returns>
+        /// <param name="value">
+        ///    The string to convert.
+        /// </param>
+        /// <param name="radix">
+        ///    The numeric base (e.g., 2 for binary, 16 for hexadecimal).
+        /// </param>
+        /// <returns>
+        ///    An object representing the converted value.
+        /// </returns>
         protected abstract object ConvertFromString(string value, int radix);
 
         /// <summary>
-        /// Converts the given string value to the target type based on the specified culture information.
+        ///    Converts the given string value to the target type based on the specified culture information.
         /// </summary>
-        /// <param name="value">The string to convert.</param>
-        /// <param name="culture">The culture information to use during conversion.</param>
-        /// <returns>An object representing the converted value.</returns>
+        /// <param name="value">
+        ///    The string to convert.
+        /// </param>
+        /// <param name="culture">
+        ///    The culture information to use during conversion.
+        /// </param>
+        /// <returns>
+        ///    An object representing the converted value.
+        /// </returns>
         protected abstract object ConvertFromString(string value, CultureInfo culture);
 
         /// <summary>
-        /// Converts the given value to a string representation based on the specified culture information.
+        ///    Converts the given value to a string representation based on the specified culture information.
         /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="culture">The culture information to use during conversion.</param>
-        /// <returns>A string representation of the value.</returns>
+        /// <param name="value">
+        ///    The value to convert.
+        /// </param>
+        /// <param name="culture">
+        ///    The culture information to use during conversion.
+        /// </param>
+        /// <returns>
+        ///    A string representation of the value.
+        /// </returns>
         protected abstract string ConvertToString(object value, CultureInfo culture);
 
         /// <summary>
-        /// Initializes a new instance of the BaseNumberConverterExtended class with the specified target type.
+        ///    Initializes a new instance of the BaseNumberConverterExtended class with the specified target type.
         /// </summary>
-        /// <param name="targetType">The target type for conversions.</param>
+        /// <param name="targetType">
+        ///    The target type for conversions.
+        /// </param>
         protected NumberConverterExtended(Type targetType)
         {
             TargetType = targetType;
         }
 
         /// <summary>
-        /// Initializes a new instance of the BaseNumberConverterExtended class with the specified encoding option and target type.
+        ///    Initializes a new instance of the BaseNumberConverterExtended class with the specified encoding option and target type.
         /// </summary>
-        /// <param name="allowBaseEncoding">Specifies whether base encoding is allowed.</param>
-        /// <param name="targetType">The target type for conversions.</param>
+        /// <param name="allowBaseEncoding">
+        ///    Specifies whether base encoding is allowed.
+        /// </param>
+        /// <param name="targetType">
+        ///    The target type for conversions.
+        /// </param>
         protected NumberConverterExtended(bool allowBaseEncoding, Type targetType)
         {
             AllowBaseEncoding = allowBaseEncoding;
@@ -94,6 +118,9 @@ namespace System.ComponentModel
         {
             // Use case-insensitive comparison for base prefixes
             const StringComparison comparison = StringComparison.OrdinalIgnoreCase;
+
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
 
             // If culture is not provided, use the current culture
             if (culture == null)
@@ -154,8 +181,14 @@ namespace System.ComponentModel
         /// <inheritdoc />
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
+            if (value == null)
+                throw new ArgumentNullException();
+
             if (destinationType == null)
                 throw new ArgumentNullException(nameof(destinationType));
+
+            if (destinationType.IsInstanceOfType(value))
+                return value;
 
             if (destinationType == typeof(string) && value != null && TargetType.IsInstanceOfType(value))
             {

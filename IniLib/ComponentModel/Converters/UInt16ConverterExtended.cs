@@ -34,7 +34,7 @@ namespace System.ComponentModel
     public class UInt16ConverterExtended : NumberConverterExtended
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UInt16ConverterExtended"/> class.
+        ///     Initializes a new instance of the <see cref="UInt16ConverterExtended"/> class.
         /// </summary>
         public UInt16ConverterExtended() : base(typeof(ushort)) { }
 
@@ -42,9 +42,15 @@ namespace System.ComponentModel
         ///     Converts a string representation of a number to an <see cref="ushort"/> 
         ///     value using the specified radix.
         /// </summary>
-        /// <param name="value">The string representation of the number.</param>
-        /// <param name="radix">The base (radix) to use for conversion (e.g., 10 for decimal, 16 for hexadecimal).</param>
-        /// <returns>The converted <see cref="ushort"/> value.</returns>
+        /// <param name="value">
+        ///     The string representation of the number.
+        /// </param>
+        /// <param name="radix">
+        ///     The base (radix) to use for conversion (e.g., 10 for decimal, 16 for hexadecimal).
+        /// </param>
+        /// <returns>
+        ///     The converted <see cref="ushort"/> value.
+        /// </returns>
         protected override object ConvertFromString(string value, int radix)
         {
             return Convert.ToUInt16(value, radix);
@@ -54,9 +60,15 @@ namespace System.ComponentModel
         ///     Converts a string representation of a number to an <see cref="ushort"/> 
         ///     value using the specified culture information.
         /// </summary>
-        /// <param name="value">The string representation of the number.</param>
-        /// <param name="culture">The <see cref="CultureInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="ushort"/> value.</returns>
+        /// <param name="value">
+        ///     The string representation of the number.
+        /// </param>
+        /// <param name="culture">
+        ///     The <see cref="CultureInfo"/> used for parsing.
+        /// </param>
+        /// <returns>
+        ///     The converted <see cref="ushort"/> value.
+        /// </returns>
         protected override object ConvertFromString(string value, CultureInfo culture)
         {
             return ushort.Parse(value, culture);
@@ -66,9 +78,15 @@ namespace System.ComponentModel
         ///     Converts an <see cref="ushort"/> value to its string representation 
         ///     using the specified number format information.
         /// </summary>
-        /// <param name="value">The <see cref="ushort"/> value.</param>
-        /// <param name="culture">The <see cref="CultureInfo"/> used for conversion.</param>
-        /// <returns>The string representation of the <see cref="ushort"/> value.</returns>
+        /// <param name="value">
+        ///     The <see cref="ushort"/> value.
+        /// </param>
+        /// <param name="culture">
+        ///     The <see cref="CultureInfo"/> used for conversion.
+        /// </param>
+        /// <returns>
+        ///     The string representation of the <see cref="ushort"/> value.
+        /// </returns>
         protected override string ConvertToString(object value, CultureInfo culture)
         {
             return ((ushort)value).ToString("G", culture);

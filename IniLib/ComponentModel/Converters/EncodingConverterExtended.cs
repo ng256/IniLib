@@ -19,7 +19,7 @@ using static System.InternalTools;
 namespace System.ComponentModel
 {
     /// <summary>
-    ///		Provides a unified way to convert objects of type <see cref="Encoding"/> to other types.
+    ///     Provides a unified way to convert objects of type <see cref="Encoding"/> to other types.
     /// </summary>
     public class EncodingConverterExtended : TypeConverter
     {
@@ -28,7 +28,7 @@ namespace System.ComponentModel
         private static bool _registered;
 
         /// <summary>
-        ///		Register <see cref="EncodingConverterExtended"/> as default converter for <see cref="Encoding"/> class.
+        ///     Register <see cref="EncodingConverterExtended"/> as default converter for <see cref="Encoding"/> class.
         /// </summary>
         public static void Register()
         {
@@ -42,7 +42,7 @@ namespace System.ComponentModel
         }
 
         /// <summary>
-        ///		Initializes a new instance of the <see cref="EncodingConverterExtended"/> class.
+        ///     Initializes a new instance of the <see cref="EncodingConverterExtended"/> class.
         /// </summary>
         public EncodingConverterExtended()
         {
@@ -73,16 +73,16 @@ namespace System.ComponentModel
         }
 
         /// <summary>
-        ///		Returns a value indicating whether this converter can convert an object of the given type
-        ///		to the <see cref="Encoding"/> type using the given context.
+        ///     Returns a value indicating whether this converter can convert an object of the given type
+        ///     to the <see cref="Encoding"/> type using the given context.
         /// </summary>
         /// <param name="context">
-        ///		A <see cref="ITypeDescriptorContext" /> object that provides the format context.
+        ///     A <see cref="ITypeDescriptorContext" /> object that provides the format context.
         /// </param>
         /// <param name="sourceType">A <see cref="Type" /> object representing the type from which to convert.
         /// </param>
         /// <returns>
-        ///		Is <see langword="true" /> if the converter can perform the conversion, otherwise <see langword="false" />.
+        ///     Is <see langword="true" /> if the converter can perform the conversion, otherwise <see langword="false" />.
         /// </returns>
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
@@ -94,21 +94,22 @@ namespace System.ComponentModel
         }
 
         /// <summary>
-        ///		Converts the specified object to the <see cref="Encoding"/> type, using the specified context and culture information.
+        ///     Converts the specified object to the <see cref="Encoding"/> type, using the specified context and culture information.
         /// </summary>
         /// <param name="context">
-        ///		A <see cref="ITypeDescriptorContext" /> object that provides the format context.
+        ///     A <see cref="ITypeDescriptorContext" /> object that provides the format context.
         /// </param>
         /// <param name="culture">
-        ///		The <see cref="CultureInfo" /> object used as the current culture.
-        ///		If <see langword="null" /> is passed, the invariant culture settings are used.
+        ///     The <see cref="CultureInfo" /> object used as the current culture.
+        ///     If <see langword="null" /> is passed, the invariant culture settings are used.
         /// </param>
         /// <param name="value">
-        ///		The object to be converted <see cref="object" />.
+        ///     The object to be converted <see cref="object" />.
         /// </param>
         /// <returns>
-        /// <see cref="object" /> representing the converted value.</returns>
-        /// <exception cref="NotSupportedException">The conversion could not be performed.
+        ///      <see cref="object" /> representing the converted value.</returns>
+        /// <exception cref="NotSupportedException">
+        ///     The conversion could not be performed.
         /// </exception>
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
@@ -116,16 +117,16 @@ namespace System.ComponentModel
         }
 
         /// <summary>
-        ///		Returns a value indicating whether this converter can object to <see cref="Encoding"/> using the specified context.
+        ///     Returns a value indicating whether this converter can object to <see cref="Encoding"/> using the specified context.
         /// </summary>
         /// <param name="context">
-        ///		A <see cref="ITypeDescriptorContext" /> object that provides the format context.
+        ///     A <see cref="ITypeDescriptorContext" /> object that provides the format context.
         /// </param>
         /// <param name="destinationType">
-        ///		The <see cref="Type" /> class representing the type to convert to.
+        ///     The <see cref="Type" /> class representing the type to convert to.
         /// </param>
         /// <returns>
-        ///		Is <see langword="true" /> if the converter can perform the conversion, otherwise <see langword="false" />.
+        ///     Is <see langword="true" /> if the converter can perform the conversion, otherwise <see langword="false" />.
         /// </returns>
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
@@ -138,21 +139,23 @@ namespace System.ComponentModel
         }
 
         /// <param name="context">
-        ///		A <see cref="ITypeDescriptorContext" /> object that provides the format context.
+        ///     A <see cref="ITypeDescriptorContext" /> object that provides the format context.
         /// </param>
         /// <param name="culture">
         /// <see cref="CultureInfo" /> object. If <see langword="null" /> is passed, the invariant culture settings are used.
         /// </param>
         /// <param name="value">
-        ///		The object to be converted <see cref="object" />.
+        ///     The object to be converted <see cref="object" />.
         /// </param>
         /// <param name="destinationType">
-        /// <see cref="Type" /> to which the <paramref name="value" /> parameter is converted.</param>
+        ///      <see cref="Type" /> to which the <paramref name="value" /> parameter is converted.</param>
         /// <returns>
-        /// <see cref="object" /> representing the converted value.</returns>
-        /// <exception cref="ArgumentNullException">The parameter <paramref name="destinationType" /> has the value <see langword="null" />.
+        ///      <see cref="object" /> representing the converted value.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     The parameter <paramref name="destinationType" /> has the value <see langword="null" />.
         /// </exception>
-        /// <exception cref="NotSupportedException">The conversion could not be performed.
+        /// <exception cref="NotSupportedException">
+        ///     The conversion could not be performed.
         /// </exception>
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {

@@ -27,11 +27,11 @@ namespace System.ComponentModel
 {
 
     /// <summary>
-    /// The <see cref="DecimalConverterExtended"/> class extends the functionality 
-    /// of the <see cref="NumberConverterExtended"/> class for converting 
-    /// Decimal (128 bit-precision floating point) values. It supports parsing strings 
-    /// with different number system prefixes (e.g., decimal) and converting 
-    /// Decimal values to their string representations using custom formatting.
+    ///    The <see cref="DecimalConverterExtended"/> class extends the functionality 
+    ///    of the <see cref="NumberConverterExtended"/> class for converting 
+    ///    Decimal (128 bit-precision floating point) values. It supports parsing strings 
+    ///    with different number system prefixes (e.g., decimal) and converting 
+    ///    Decimal values to their string representations using custom formatting.
     /// </summary>
     [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
     public class DecimalConverterExtended : NumberConverterExtended
@@ -39,12 +39,18 @@ namespace System.ComponentModel
         public DecimalConverterExtended() : base(allowBaseEncoding: false, targetType: typeof(decimal)) { }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="decimal"/> 
-        /// value using the specified radix.
+        ///    Converts a string representation of a number to a <see cref="decimal"/> 
+        ///    value using the specified radix.
         /// </summary>
-        /// <param name="value">The string representation of the number.</param>
-        /// <param name="radix">The base (radix) to use for conversion is unsupported.</param>
-        /// <returns>The converted <see cref="decimal"/> value.</returns>
+        /// <param name="value">
+        ///    The string representation of the number.
+        /// </param>
+        /// <param name="radix">
+        ///    The base (radix) to use for conversion is unsupported.
+        /// </param>
+        /// <returns>
+        ///    The converted <see cref="decimal"/> value.
+        /// </returns>
         [Obsolete]
         protected override object ConvertFromString(string value, int radix)
         {
@@ -52,24 +58,36 @@ namespace System.ComponentModel
         }
 
         /// <summary>
-        /// Converts a string representation of a number to a <see cref="decimal"/> 
-        /// value using the specified culture information.
+        ///    Converts a string representation of a number to a <see cref="decimal"/> 
+        ///    value using the specified culture information.
         /// </summary>
-        /// <param name="value">The string representation of the number.</param>
-        /// <param name="culture">The <see cref="CultureInfo"/> used for parsing.</param>
-        /// <returns>The converted <see cref="decimal"/> value.</returns>
+        /// <param name="value">
+        ///    The string representation of the number.
+        /// </param>
+        /// <param name="culture">
+        ///    The <see cref="CultureInfo"/> used for parsing.
+        /// </param>
+        /// <returns>
+        ///    The converted <see cref="decimal"/> value.
+        /// </returns>
         protected override object ConvertFromString(string value, CultureInfo culture)
         {
             return decimal.Parse(value, culture);
         }
 
         /// <summary>
-        /// Converts a <see cref="decimal"/> value to its string representation 
-        /// using the specified culture information.
+        ///    Converts a <see cref="decimal"/> value to its string representation 
+        ///    using the specified culture information.
         /// </summary>
-        /// <param name="value">The <see cref="decimal"/> value.</param>
-        /// <param name="culture">The <see cref="CultureInfo"/> used for conversion.</param>
-        /// <returns>The string representation of the <see cref="decimal"/> value.</returns>
+        /// <param name="value">
+        ///    The <see cref="decimal"/> value.
+        /// </param>
+        /// <param name="culture">
+        ///    The <see cref="CultureInfo"/> used for conversion.
+        /// </param>
+        /// <returns>
+        ///    The string representation of the <see cref="decimal"/> value.
+        /// </returns>
         protected override string ConvertToString(object value, CultureInfo culture)
         {
             return ((decimal)value).ToString("G", culture);

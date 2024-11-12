@@ -43,12 +43,16 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeConverterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IniLib\IniLib.csproj">
       <Project>{b48c7cf5-c4dd-40e8-82d9-fa73107f372a}</Project>
       <Name>IniLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

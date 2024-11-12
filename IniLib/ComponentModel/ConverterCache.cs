@@ -48,6 +48,7 @@ namespace System.ComponentModel
             { typeof(double), new DoubleConverterExtended() },
             { typeof(CultureInfo), new CultureInfoConverterExtended() },
             { typeof(Encoding), new EncodingConverterExtended() },
+            { typeof(Uri), new UriConverterExtended() },
         };
 
         // Initializes a new instance of the ConverterCache class.
