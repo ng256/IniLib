@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime;
 using System.Text;
 using static System.InternalTools;
 
@@ -177,10 +178,10 @@ namespace System.Ini
                 throw exception;
 
             if (settings == null)
-                settings = IniFileSettings.DefaultSettings;
+                settings = IniFileSettings.Detect(fileName);
 
             if (encoding == null)
-                encoding = AutoDetectEncoding(fileName, Encoding.UTF8);
+                encoding = IniFileSettings.DetectEncoding(fileName, Encoding.UTF8);
 
             string content = File.ReadAllText(filePath, encoding);
             return new IniFile(content, settings);
@@ -248,8 +249,9 @@ namespace System.Ini
         /// </returns>
         public static IniFile Load()
         {
+            IniFileSettings settings = IniFileSettings.Detect();
             string fileName = GetIniFileName(Assembly.GetEntryAssembly(), Environment.SystemDirectory);
-            return Load(fileName, encoding: null, IniFileSettings.DefaultSettings);
+            return Load(fileName, encoding: null, settings);
         }
 
         /// <summary>
@@ -282,8 +284,9 @@ namespace System.Ini
         /// </returns>
         public static IniFile Search(params string[] directories)
         {
+            IniFileSettings settings = IniFileSettings.Detect();
             string fileName = GetIniFileName(Assembly.GetEntryAssembly(), directories);
-            return Load(fileName, encoding: null, IniFileSettings.DefaultSettings);
+            return Load(fileName, encoding: null, settings);
         }
 
         /// <summary>

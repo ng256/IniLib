@@ -10,7 +10,7 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            IniFileSettings iniSettings = new IniFileSettings() {AllowEscapeCharacters = true};
+            IniFileSettings iniSettings = IniFileSettings.Detect();
 
             TestSettings test = new TestSettings();
             using (var iniFile = IniFile.Load(iniSettings))
@@ -19,7 +19,6 @@ namespace Test
             }
 
             Console.WriteLine(test);
-            //TypeConverterTest.Run();
             Console.ReadKey();
         }
     }

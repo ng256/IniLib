@@ -17,6 +17,9 @@
 
 ***************************************************************/
 
+using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -237,14 +240,48 @@ namespace System.Ini
 
         #region Methods
 
-        // Detects settings from an INI file if they are explicitly specified.
-        /*internal static IniFileSettings Detect(string fileName)
+        internal static Encoding DetectEncoding(Encoding defaultEncoding = null)
+        {
+            return DetectEncoding(IniFile.GetIniFileName(defaultEncoding));
+        }
+
+        // Detects encoding from an INI file if it is explicitly specified.
+        internal static Encoding DetectEncoding(string fileName, Encoding defaultEncoding = null)
         {
             // Initialize IniFileSettings with quick scan parsing and case-insensitive comparison.
-            IniFileSettings settings = new IniFileSettings(IniFileParsingMethod.QuickScan, StringComparison.OrdinalIgnoreCase)
+            IniFileSettings settings =
+                new IniFileSettings(IniFileParsingMethod.QuickScan, StringComparison.OrdinalIgnoreCase)
+                {
+                    AllowEscapeCharacters = true // Allow escape characters by default.
+                };
+
+            // Check if the specified INI file exists.
+            if (File.Exists(fileName))
             {
-                AllowEscapeCharacters = true // Allow escape characters by default.
-            };
+                using (IniFile iniFile = IniFile.Load(fileName, Encoding.UTF8, settings))
+                {
+                    var encoding = iniFile.Read<Encoding>(null, "encoding", new EncodingConverterExtended(), null);
+                    if (encoding != null) return encoding;
+                }
+            }
+
+            return InternalTools.AutoDetectEncoding(fileName, defaultEncoding ?? Encoding.UTF8);
+        }
+
+        // Detects settings from an INI file if they are explicitly specified.
+        internal static IniFileSettings Detect()
+        {
+            return Detect(IniFile.GetIniFileName());
+        }
+
+        internal static IniFileSettings Detect(string fileName)
+        {
+            // Initialize IniFileSettings with quick scan parsing and case-insensitive comparison.
+            IniFileSettings settings =
+                new IniFileSettings(IniFileParsingMethod.QuickScan, StringComparison.OrdinalIgnoreCase)
+                {
+                    AllowEscapeCharacters = true // Allow escape characters by default.
+                };
 
             // Check if the specified INI file exists.
             if (File.Exists(fileName))
@@ -252,6 +289,7 @@ namespace System.Ini
                 // Load the INI file with UTF-8 encoding and the initialized settings.
                 using (IniFile iniFile = IniFile.Load(fileName, Encoding.UTF8, settings))
                 {
+                    settings = DefaultSettings;
                     // Read various settings from the INI file with default values.
                     settings.AddMissingEntries = iniFile.ReadBoolean(null, "add_missing");
                     settings.ReadOnly = iniFile.ReadBoolean(null, "read_only");
@@ -262,7 +300,7 @@ namespace System.Ini
                     // Binary data encoding style.
                     try
                     {
-                        string bytesEncoding = iniFile[null, "bytes_encoding", "hex"].ToLower();
+                        string bytesEncoding = iniFile[null, "bytes_encoding", "hex"].ToLower(CultureInfo.InvariantCulture);
                         switch (bytesEncoding)
                         {
                             case "hex":
@@ -278,7 +316,8 @@ namespace System.Ini
                                 break;
                             default:
                                 // Parse a custom encoding value.
-                                settings.BytesEncoding = (BytesEncoding)Enum.Parse(typeof(BytesEncoding), bytesEncoding);
+                                settings.BytesEncoding =
+                                    (BytesEncoding)Enum.Parse(typeof(BytesEncoding), bytesEncoding);
                                 break;
                         }
                     }
@@ -291,8 +330,9 @@ namespace System.Ini
                     // Attempt to read and set the Comparison setting.
                     try
                     {
-                        settings.Comparison = (StringComparison)Enum.Parse(typeof(StringComparison),
-                            iniFile[null, "String_comparison", "InvariantCultureIgnoreCase"]);
+                        /*settings.Comparison = (StringComparison)Enum.Parse(typeof(StringComparison),
+                            iniFile[null, "str_compare", "InvariantCultureIgnoreCase"]);*/
+                        settings.Comparison = iniFile.Read(null, "str_compare", StringComparison.InvariantCultureIgnoreCase);
                     }
                     catch
                     {
@@ -303,7 +343,7 @@ namespace System.Ini
                     // Using a comment character.
                     try
                     {
-                        string commentChar = iniFile[null, "comment_char", "semicolon"].ToLower();
+                        string commentChar = iniFile[null, "comment_char", "semicolon"].ToLower(CultureInfo.InvariantCulture);
                         switch (commentChar)
                         {
                             case ";":
@@ -316,11 +356,13 @@ namespace System.Ini
                                 break;
                             case ";#":
                             case "#;":
+                            case "both":
                                 settings.CommentCharacter = IniFileCommentCharacter.SemicolonOrHash;
                                 break;
                             default:
                                 // Parse a custom comment character.
-                                settings.CommentCharacter = (IniFileCommentCharacter)Enum.Parse(typeof(IniFileCommentCharacter), commentChar);
+                                settings.CommentCharacter =
+                                    (IniFileCommentCharacter)Enum.Parse(typeof(IniFileCommentCharacter), commentChar);
                                 break;
                         }
                     }
@@ -350,7 +392,9 @@ namespace System.Ini
                                 break;
                             default:
                                 // Parse a custom entry separator character.
-                                settings.EntrySeparatorCharacter = (IniFileEntrySeparatorCharacter)Enum.Parse(typeof(IniFileEntrySeparatorCharacter), entryDelimiter);
+                                settings.EntrySeparatorCharacter =
+                                    (IniFileEntrySeparatorCharacter)Enum.Parse(typeof(IniFileEntrySeparatorCharacter),
+                                        entryDelimiter);
                                 break;
                         }
                     }
@@ -364,7 +408,7 @@ namespace System.Ini
 
             // Return the populated settings object.
             return settings;
-        }*/
+        }
 
         // Generates a regular expression pattern that can match various ini file formats.
         internal string GetRegexPattern()
