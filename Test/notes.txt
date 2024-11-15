@@ -1,5 +1,0 @@
-﻿Add indents to XML comments:
-(\/{3}\s+)(?=[^<])
-///     
-Remove all comments and blank lines:
-(\t+|\s+|\r\n)((/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*))
