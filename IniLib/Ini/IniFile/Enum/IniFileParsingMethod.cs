@@ -14,7 +14,7 @@
 
 •   Copyright
 
-    © Pavel Bashkardin, 2022
+    © Pavel Bashkardin, 2022-2024
 
 ***************************************************************/
 
@@ -45,9 +45,10 @@ namespace System.Ini
         /// </summary>
         QuickScan = 2,
 
-        /// <summary>
+        /*/// <summary>
         ///		This method parses the ini file by calling Windows API functions. 
         /// </summary>
-        WinAPI = 3
+        [Obsolete]
+        WinAPI = 3*/
     }
 }

@@ -13,14 +13,12 @@
 
 •   Copyright
 
-    © Pavel Bashkardin, 2022
+    © Pavel Bashkardin, 2022-2024
 
 ***************************************************************/
 
-using System.Globalization;
-using System.IO;
 using System.Text;
-using static System.InternalTools;
+using System.Text.RegularExpressions;
 
 namespace System.Ini
 {
@@ -28,8 +26,17 @@ namespace System.Ini
     ///		Represent a settings for parsing and formatting the ini file.
     /// </summary>
     [Serializable]
-    public class IniFileSettings : ICloneable
+    public class IniFileSettings : InitializerSettings
     {
+        private IniFileCommentCharacter _commentCharacter = IniFileCommentCharacter.SemicolonOrHash;
+        private IniFileEntrySeparatorCharacter _entrySeparatorCharacter = IniFileEntrySeparatorCharacter.ColonOrEqual;
+        private IniFileParsingMethod _parsingMethod = IniFileParsingMethod.PreserveOriginal;
+        private bool _allowCommentsInEntries = true;
+        private bool _addMissingEntries = false;
+        private bool _readOnly = false;
+        private LineBreakerStyle _lineBreaker = LineBreakerStyle.Auto;
+        private BytesEncoding _bytesEncoding = BytesEncoding.Hexadecimal;
+
         #region Predefined common settings
 
         internal static IniFileSettings _defaultSettings  => new IniFileSettings();
@@ -97,74 +104,86 @@ namespace System.Ini
         ///		Possible values ​​are semicolon, hash, or both characters.
         ///		The default is SemicolonAndHash.
         /// </summary>
-        public IniFileCommentCharacter CommentCharacter { get; set; } 
-            = IniFileCommentCharacter.SemicolonOrHash;
+        public IniFileCommentCharacter CommentCharacter
+        {
+            get => _commentCharacter;
+            set => _commentCharacter = value;
+        }
 
         /// <summary>
         ///		Separator between name and value in the ini file.
         ///		Possible values: colon, equal, or both characters.
         ///		The default is Equal.
         /// </summary>
-        public IniFileEntrySeparatorCharacter EntrySeparatorCharacter { get; set; } 
-            = IniFileEntrySeparatorCharacter.ColonOrEqual;
+        public IniFileEntrySeparatorCharacter EntrySeparatorCharacter
+        {
+            get => _entrySeparatorCharacter;
+            set => _entrySeparatorCharacter = value;
+        }
 
         /// <summary>
         ///		Gets or sets the format of the ini file writer.
         ///		The default value is IniFileWriterFormat.ReformatFile.
         /// </summary>
-        public IniFileParsingMethod ParsingMethod { get; set; } 
-            = IniFileParsingMethod.PreserveOriginal;
-
-        /// <summary>
-        ///		Specifies the culture, case, and sort rules to be used by parsers.
-        /// </summary>
-        public StringComparison Comparison { get; set; } 
-            = StringComparison.InvariantCultureIgnoreCase;
+        public IniFileParsingMethod ParsingMethod
+        {
+            get => _parsingMethod;
+            set => _parsingMethod = value;
+        }
 
         /// <summary>
         ///		If true, a comment can be used in the parameter string.
         ///		If false, everything after the delimiter will be treated as the parameter value.
         /// </summary>
-        public bool AllowCommentsInEntries { get; set; }
-            = true;
+        public bool AllowCommentsInEntries
+        {
+            get => _allowCommentsInEntries;
+            set => _allowCommentsInEntries = value;
+        }
 
-        /// <summary>
-        ///		Use escaped characters in parameter values.
-        /// </summary>
-        public bool AllowEscapeCharacters { get; set; } 
-            = false;
 
         /// <summary>
         ///		Add missing entries with default value when reading.
         /// </summary>
-        public bool AddMissingEntries { get; set; } 
-            = false;
+        public bool AddMissingEntries
+        {
+            get => _addMissingEntries;
+            set => _addMissingEntries = value;
+        }
 
         /// <summary>
         ///		Specifies that writing values ​​to the ini file is not allowed.
         /// </summary>
-        public bool ReadOnly { get; set; } 
-            = false;
-
-        /// <summary>
-        ///		Enables the use of improved type converters.
-        ///		They help you work efficiently with different representations of objects,
-        ///		such as numbers, references, character encodings, regional settings, and more.
-        /// </summary>
-        public bool UseExtendedTypeConverters { get; set; } 
-            = true;
+        public bool ReadOnly
+        {
+            get => _readOnly;
+            set => _readOnly = value;
+        }
 
         /// <summary>
         ///		The newline characters to be used in the ini file.
         /// </summary>
-        public LineBreakerStyle LineBreaker { get; set; } 
-            = LineBreakerStyle.Auto;
+        public LineBreakerStyle LineBreaker
+        {
+            get => _lineBreaker;
+            set => _lineBreaker = value;
+        }
 
         /// <summary>
         ///     Specifies encoding style for binary data. 
         /// </summary>
-        public BytesEncoding BytesEncoding { get; set; }
-            = BytesEncoding.Hexadecimal;
+        public BytesEncoding BytesEncoding
+        {
+            get => _bytesEncoding;
+            set => _bytesEncoding = value;
+        }
+
+        /// <summary>
+        ///		Specifies a regular expression options
+        ///     based on <see cref="InitializerSettings.Comparison"/> property
+        ///     to be used by <see cref="IniFileParser"/> object.
+        /// </summary>
+        public RegexOptions RegexOptions => Comparison.GetRegexOptions(RegexOptions.Compiled);
 
         #endregion
 
@@ -464,7 +483,7 @@ namespace System.Ini
         /// <returns>
         ///		A deep copy of current <see cref="IniFileSettings"/> instance.
         /// </returns>
-        public object Clone()
+        public override object Clone()
         {
             // Create a new instance of IniFileSettings
             IniFileSettings clonedSettings = new IniFileSettings();

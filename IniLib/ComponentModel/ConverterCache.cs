@@ -17,7 +17,7 @@
 
 •   Copyright
 
-    © Pavel Bashkardin, 2022
+    © Pavel Bashkardin, 2022-2024
 
 ***************************************************************/
 
@@ -31,11 +31,8 @@ namespace System.ComponentModel
 
     internal sealed class ConverterCache : Hashtable
     {
-        // The default cache instance containing standard converters.
-        public static ConverterCache Default { get; } = new ConverterCache();
-
-        // The extended cache instance containing customized converters for specific types.
-        public static ConverterCache Extended { get; } = new ConverterCache
+        private static readonly ConverterCache _default = new ConverterCache();
+        private static readonly ConverterCache _extended = new ConverterCache
         {
             { typeof(bool), new BooleanConverterExtended() },
             { typeof(short), new Int16ConverterExtended() },
@@ -50,6 +47,12 @@ namespace System.ComponentModel
             { typeof(Encoding), new EncodingConverterExtended() },
             { typeof(Uri), new UriConverterExtended() },
         };
+
+        // The default cache instance containing standard converters.
+        public static ConverterCache Default => _default;
+
+        // The extended cache instance containing customized converters for specific types.
+        public static ConverterCache Extended => _extended;
 
         // Initializes a new instance of the ConverterCache class.
         private ConverterCache() : base()

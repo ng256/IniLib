@@ -14,7 +14,7 @@
 
 •   Copyright
 
-    © Pavel Bashkardin, 2022
+    © Pavel Bashkardin, 2022-2024
 
 ***************************************************************/
 
@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace System
 {
@@ -113,8 +114,22 @@ namespace System
             string typeName = attribute.ConverterTypeName;
             if (typeName.IsNullOrEmpty())
                 throw new InvalidOperationException(GetResourceString("Argument_InvalidTypeName"));
-            Type type = Type.GetType(typeName);
-            return Activator.CreateInstance(type ?? throw new InvalidOperationException()) as TypeConverter;
+            try
+            {
+                Type type = Type.GetType(typeName);
+                return Activator.CreateInstance(type ?? throw new InvalidOperationException()) as TypeConverter;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        // Indicates that the property is declared as static.
+        public static bool IsStatic(this PropertyInfo property)
+        {
+            // Check if the getter method is static
+            return property.GetGetMethod().IsStatic;
         }
 
         // Gets the default value of the specified property.
@@ -242,14 +257,26 @@ namespace System
         // Gets the declaring path of the specified type.
         internal static string GetDeclaringPath(this Type type, char separator = '\\')
         {
-            List<string> list = new List<string>(4);
+            // Initialize a StringBuilder with the initial name of the type.
+            StringBuilder sb = new StringBuilder(type.Name);
+
+            // Traverse through the declaring types, if any, in a loop.
+            while ((type = type.DeclaringType) != null)
+            {
+                sb.Insert(0, separator);
+                sb.Insert(0, type.Name);
+            }
+
+            return sb.ToString();
+
+            /*List<string> list = new List<string>(4);
             while (type != null)
             {
                 list.Add(type.Name);
                 type = type.DeclaringType;
             }
 
-            return string.Join(separator.ToString(), list);
+            return string.Join(separator.ToString(), list);*/
         }
 
         // Gets the nested type path of the specified type.

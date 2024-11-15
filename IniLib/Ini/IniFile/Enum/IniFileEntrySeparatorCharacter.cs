@@ -10,9 +10,11 @@
 
 •   Copyright
 
-    © Pavel Bashkardin, 2022
+    © Pavel Bashkardin, 2022-2024
 
 ***************************************************************/
+
+using System.ComponentModel;
 
 namespace System.Ini
 {
@@ -25,11 +27,13 @@ namespace System.Ini
         /// <summary>
         ///		The separating character is a colon (:).
         /// </summary>
+        [StringValue(":")]
         Colon = 1,
 
         /// <summary>
         ///		The separating character is the equal sign (=).
         /// </summary>
+        [StringValue("=")]
         Equal = 2,
 
         /// <summary>

@@ -14,7 +14,7 @@
 
 •   Copyright
 
-    © Pavel Bashkardin, 2022
+    © Pavel Bashkardin, 2022-2024
 
 ***************************************************************/
 
@@ -114,7 +114,8 @@ namespace System.ComponentModel
         }
 
         /// <inheritdoc />
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        public override object ConvertFrom(ITypeDescriptorContext context, 
+            CultureInfo culture, object value)
         {
             // Use case-insensitive comparison for base prefixes
             const StringComparison comparison = StringComparison.OrdinalIgnoreCase;
@@ -179,7 +180,8 @@ namespace System.ComponentModel
         }
 
         /// <inheritdoc />
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        public override object ConvertTo(ITypeDescriptorContext context, 
+            CultureInfo culture, object value, Type destinationType)
         {
             if (value == null)
                 throw new ArgumentNullException();
@@ -190,13 +192,16 @@ namespace System.ComponentModel
             if (destinationType.IsInstanceOfType(value))
                 return value;
 
-            if (destinationType == typeof(string) && value != null && TargetType.IsInstanceOfType(value))
-            {
-                if (culture == null)
-                    culture = CultureInfo.CurrentCulture;
+            if (culture == null)
+                culture = CultureInfo.CurrentCulture;
+
+            if (destinationType == typeof(string) && TargetType.IsInstanceOfType(value))
                 return ConvertToString(value, culture);
-            }
-            return destinationType.IsPrimitive ? Convert.ChangeType(value, destinationType, culture) : base.ConvertTo(context, culture, value, destinationType);
+
+            if (destinationType.IsPrimitive)
+                return Convert.ChangeType(value, destinationType, culture);
+            
+            return base.ConvertTo(context, culture, value, destinationType);
         }
 
         /// <inheritdoc />

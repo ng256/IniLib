@@ -13,6 +13,7 @@
 ***************************************************************/
 
 using System.Globalization;
+using System.Security.Permissions;
 using System.Text;
 using static System.InternalTools;
 
@@ -21,6 +22,7 @@ namespace System.ComponentModel
     /// <summary>
     ///     Provides a unified way to convert objects of type <see cref="Encoding"/> to other types.
     /// </summary>
+    [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
     public class EncodingConverterExtended : TypeConverter
     {
         private static readonly TypeConverter NumberConverter = new Int32ConverterExtended();

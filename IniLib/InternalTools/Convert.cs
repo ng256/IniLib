@@ -12,13 +12,12 @@
 
 •   Copyright
 
-    © Pavel Bashkardin, 2022
+    © Pavel Bashkardin, 2022-2024
 
 *****************************************************************/
 
 using System.ComponentModel;
 using System.Globalization;
-using System.Ini;
 using System.Linq;
 using System.Security;
 
@@ -104,6 +103,7 @@ namespace System
             Type sourceType = value.GetType();
 
             if (converter.CanConvertFrom(sourceType))
+            {
                 try
                 {
                     result = converter.ConvertFrom(null, culture, value);
@@ -113,6 +113,7 @@ namespace System
                 {
                     result = null;
                 }
+            }
 
             return false;
         }
@@ -127,6 +128,7 @@ namespace System
                 return false;
 
             if (converter.CanConvertFrom(typeof(string)))
+            {
                 try
                 {
                     result = converter.ConvertFrom(null, culture, value);
@@ -136,6 +138,7 @@ namespace System
                 {
                     result = null;
                 }
+            }
 
             return false;
         }
@@ -144,15 +147,19 @@ namespace System
         // Returns true if the conversion is successful and stores the result in the 'result' parameter.
         internal static bool TryConvertTo(this TypeConverter converter, Type destinationType, CultureInfo culture, object value, out object result)
         {
-            if (destinationType == null)
-                throw new ArgumentNullException(nameof(destinationType));
-
             result = null;
 
             if (value == null)
                 return false;
 
+            if (destinationType.IsInstanceOfType(value))
+            {
+                result = value;
+                return true;
+            }
+
             if (converter.CanConvertTo(destinationType))
+            {
                 try
                 {
                     result = converter.ConvertTo(null, culture, value, destinationType);
@@ -162,6 +169,7 @@ namespace System
                 {
                     result = null;
                 }
+            }
 
             return false;
         }
@@ -175,7 +183,14 @@ namespace System
             if (value == null)
                 return false;
 
+            if (value is string str)
+            {
+                result = str;
+                return true;
+            }
+
             if (converter.CanConvertTo(typeof(string)))
+            {
                 try
                 {
                     result = (string) converter.ConvertTo(null, culture, value, typeof(string));
@@ -185,6 +200,7 @@ namespace System
                 {
                     result = null;
                 }
+            }
 
             return false;
         }
@@ -198,7 +214,14 @@ namespace System
             if (value == null)
                 return false;
 
+            if (destinationType.IsInstanceOfType(value))
+            {
+                result = value;
+                return true;
+            }
+
             if (value.GetType().IsPrimitive && destinationType.IsPrimitive)
+            {
                 try
                 {
                     result = Convert.ChangeType(value, destinationType, culture);
@@ -207,6 +230,7 @@ namespace System
                 catch
                 {
                 }
+            }
 
             // If conversion fails.
             return false;

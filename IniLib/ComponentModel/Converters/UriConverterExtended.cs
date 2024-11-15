@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Permissions;
 using System.Text.RegularExpressions;
 
 namespace System.ComponentModel
@@ -7,6 +8,7 @@ namespace System.ComponentModel
     /// <summary>
     ///     An extended URI type converter that can handle various URL formats.
     /// </summary>
+    [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
     public class UriConverterExtended : UriTypeConverter
     {
         private static bool _registered;

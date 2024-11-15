@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Ini;
 
 namespace Test
 {
@@ -55,7 +56,8 @@ namespace Test
             return test;
         }
 
-        internal static bool TestBool()
+
+        internal static bool Run()
         {
             return TestConverterFrom<bool>(
                 null,
@@ -71,31 +73,47 @@ namespace Test
                 "0o77",
                 "  100h  ",
                 "100b ",
-                " 100o");
-        }
+                " 100o")
+                
+                
+                &
 
-        internal static bool TestInt32()
-        {
-            return TestConverterFrom<int>(
-                null,
-                string.Empty,
-                "  1",
-                "2",
-                "3  ",
-                "abcd  ",
-                "255",
-                "0xFF",
-                "0b11",
-                "0o77",
-                "  100h  ",
-                "100b ",
-                " 100o"
-            );
-        }
 
-        internal static bool Run()
-        {
-            return TestBool() & TestInt32();
+                TestConverterFrom<int>(
+                    null,
+                    string.Empty,
+                    "  1",
+                    "2",
+                    "3  ",
+                    "abcd  ",
+                    "255",
+                    "0xFF",
+                    "0b11",
+                    "0o77",
+                    "  100h  ",
+                    "100b ",
+                    " 100o"
+                )
+                
+                
+                &
+
+
+                TestConverterFrom<LineBreakerStyle>(
+                    null,
+                    string.Empty,
+                    "  1",
+                    "2",
+                    "3  ",
+                    "Default  ",
+                    "255",
+                    "0xFF",
+                    "0b11",
+                    "0o77",
+                    "  100h  ",
+                    "100b ",
+                    " 100o"
+                );
         }
     }
 }

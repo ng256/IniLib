@@ -1,0 +1,18 @@
+﻿<Configuration>
+	<Settings>
+		<text>Hello,\nworld!</text>
+		<decnumber>1024</decnumber>
+		<hexnumber>0x1FFF</hexnumber>
+		<octnumber>0o755</octnumber>
+		<binnumber>0b111</binnumber>
+		<chars>0123456789abcdef</chars>
+		<bytes>34320a0d</bytes>
+		<strings>Hello</strings>
+		<strings>world</strings>
+	</Settings>
+
+	<Web>
+		<host>127.0.0.1:8080</host>
+		<host>192.168.0.1:80</host>
+	</Web>
+</Configuration>

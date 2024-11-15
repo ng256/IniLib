@@ -10,7 +10,7 @@
 
 •   Copyright
 
-    © Pavel Bashkardin, 2022
+    © Pavel Bashkardin, 2022-2024
 
 ***************************************************************/
 
@@ -20,8 +20,14 @@ namespace System.ComponentModel
     [AttributeUsage(AttributeTargets.Field)]
     internal sealed class StringValueAttribute : Attribute
     {
+        private string _stringValue;
+
         // The string value associated with the field
-        public string StringValue { get; private set; }
+        public string StringValue
+        {
+            get => _stringValue;
+            private set => _stringValue = value;
+        }
 
         // Initialize a new instance of the StringValueAttribute with the specified string value.
         public StringValueAttribute(string value)

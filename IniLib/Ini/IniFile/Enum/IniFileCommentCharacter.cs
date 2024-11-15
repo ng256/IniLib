@@ -11,7 +11,7 @@
 
 •   Copyright
 
-    © Pavel Bashkardin, 2022
+    © Pavel Bashkardin, 2022-2024
 
 ***************************************************************/
 
@@ -40,7 +40,6 @@ namespace System.Ini
         /// <summary>
         ///		Comment characters are semicolon or hash mark.
         /// </summary>
-        [StringValue(";#")]
         SemicolonOrHash = 3
     }
 }

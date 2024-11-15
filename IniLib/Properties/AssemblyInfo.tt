@@ -9,12 +9,12 @@
 /************************ Filled with your project data  *********************************/
 
 // Names.
-// IniLibPlus — Advanced Multi-Source Configuration Library
-// IniLibPro - Professional Multi-Source Configuration Library
+// IniLibPlus — Advanced Multi-Source Initialization Library
+// IniLibPro - Professional Multi-Source Initialization Library
 string projectName = "IniLib"; // Project (short name for COM).
-string productName = "Multi-Source Configuration Library"; // Full title.
-string projectDescription = "A versatile configuration library for .NET applications that enables seamless initialization and management of application settings from multiple sources";
-string developerName = "NG256"; // Developer.
+string productName = "Multi-Source Initialization Library"; // Full title.
+string projectDescription = "A versatile initialization library for .NET applications that enables seamless initialization and management of application settings from multiple sources";
+string developerName = "Pavel Bashkardin"; // Developer.
 string assemblyType = ""; // Application, Library, etc.
 
 // Version.
@@ -22,7 +22,7 @@ int majorVersion = 1;
 int minorVersion = 0;
 
 // Year of the start of work on the project.
-string since = "2021";
+string since = "2022";
 
 /*****************************************************************************************/ 
 
@@ -63,7 +63,7 @@ Software without  restriction, including without  limitation
 the rights to use, copy, modify, merge, publish, distribute,
 sublicense,  and/or  sell  copies   of  the Software, and to
 permit persons to whom the Software  is furnished to  do so,
-subject       to         the      following      conditions:
+subject to the following conditions:
 
 The above copyright  notice and this permission notice shall
 be  included  in all copies   or substantial portions of the
@@ -94,7 +94,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCompany("<#= developerName#>")] // Developer.
 [assembly: AssemblyProduct("<#= developerName#> <#= productName#>")] // Product name.
 [assembly: AssemblyCopyright("© <#= developerName#> <#= years #>")] // Copyright.
-[assembly: AssemblyTrademark("<#= developerName#>® <#= productName#>®")] // Trademark.
+//[assembly: AssemblyTrademark("<#= developerName#>® <#= productName#>®")] // Trademark.
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("<#= majorVersion#>.<#= minorVersion#>.<#= today.ToString("yyMM") #>.<#= $"{ver:0000}"#>")]
 [assembly: AssemblyFileVersion("<#= majorVersion#>.<#= minorVersion#>.<#= today.ToString("yyMM") #>.<#= $"{ver:0000}"#>")]

@@ -1,4 +1,23 @@
-﻿namespace System.Ini
+﻿/***************************************************************
+
+•   File: SectionAttribute.cs
+
+•   Description
+
+    The SectionAttribute  class associates   a class or property
+    with  a specific section name in  an  INI or  similar config
+    file. This attribute  enables methods like  ReadSettings and
+    WriteSettings to locate and process sections  by identifying
+    them  based  on  attribute   data, allowing for flexible and
+    organized INI file management.
+
+•   Copyright
+
+    © Pavel Bashkardin, 2022-2024
+
+***************************************************************/
+
+namespace System.Ini
 {
     /// <summary>
     /// Attribute that associates a class or property with a specific section in the INI file.
@@ -29,10 +48,7 @@
         /// <summary>
         /// Gets the name of the section.
         /// </summary>
-        public string Name
-        {
-            get => _sectionName;
-        }
+        public string Name => _sectionName;
 
         /// <inheritdoc />
         public override bool IsDefaultAttribute()

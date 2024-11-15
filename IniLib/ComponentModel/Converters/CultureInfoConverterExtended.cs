@@ -18,6 +18,7 @@
 ***************************************************************/
 
 using System.Globalization;
+using System.Security.Permissions;
 using static System.InternalTools;
 
 namespace System.ComponentModel
@@ -25,6 +26,7 @@ namespace System.ComponentModel
     /// <summary>
     ///    Provides a unified way to convert objects of type <see cref="CultureInfo"/> to other types.
     /// </summary>
+    [HostProtection(SecurityAction.LinkDemand, SharedState = true)]
     public class CultureInfoConverterExtended : CultureInfoConverter
     {
         private static readonly TypeConverter NumberConverter = new Int32ConverterExtended();

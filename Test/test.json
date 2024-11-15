@@ -1,0 +1,15 @@
+﻿{
+  "Settings": {
+    "text": "Hello,\nworld!",
+    "decnumber": 1024,
+    "hexnumber": "0x1FFF",
+    "octnumber": "0o755",
+    "binnumber": "0b111",
+    "chars": "0123456789abcdef",
+    "bytes": "34320a0d",
+    "strings": [ "Hello", "world" ]
+  },
+  "Web": {
+    "host": [ "127.0.0.1:8080", "192.168.0.1:80" ]
+  }
+}
