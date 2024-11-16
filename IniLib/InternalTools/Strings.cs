@@ -123,6 +123,8 @@ namespace System
         // which allows it to make a more informed decision about which line break style is predominant.
         internal static LineBreakerStyle AutoDetectLineBreakerEx(this string content)
         {
+            if(content == null) return LineBreakerStyle.Default;
+
             const int threshold = 20; // It means 20%.
             int r = 0, n = 0;
 

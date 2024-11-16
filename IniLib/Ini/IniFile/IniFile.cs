@@ -248,7 +248,7 @@ namespace System.Ini
         /// </returns>
         public static IniFile Load()
         {
-            IniFileSettings settings = IniFileSettings.Detect();
+            IniFileSettings settings = IniFileSettings.Load();
             string fileName = GetIniFileName(Assembly.GetEntryAssembly(), Environment.SystemDirectory);
             return Load(fileName, encoding: null, settings);
         }
@@ -283,7 +283,7 @@ namespace System.Ini
         /// </returns>
         public static IniFile Search(params string[] directories)
         {
-            IniFileSettings settings = IniFileSettings.Detect();
+            IniFileSettings settings = IniFileSettings.Load();
             string fileName = GetIniFileName(Assembly.GetEntryAssembly(), directories);
             return Load(fileName, encoding: null, settings);
         }

@@ -82,6 +82,12 @@
     <Compile Include="Ini\IniFile\Parser\IniFileRegexParser.cs" />
     <Compile Include="Ini\IniFile\IniFileSettings.cs" />
     <Compile Include="Ini\InitializerSettings.cs" />
+    <None Include="Ini\JsonFile\Parser\JsonParserCached.cs.bak" />
+    <None Include="Ini\JsonFile\Parser\JsonParserQuickScan.cs.bak" />
+    <Compile Include="Ini\JsonFile\Parser\JsonParser.cs" />
+    <Compile Include="Ini\JsonFile\Parser\JsonParserCached.cs" />
+    <Compile Include="Ini\JsonFile\Parser\JsonParserQuickScan.cs" />
+    <Compile Include="Ini\JsonFile\JsonFileSettings.cs" />
     <Compile Include="InternalTools\Collections.cs" />
     <Compile Include="InternalTools\Convert.cs" />
     <Compile Include="InternalTools\FileSystem.cs" />

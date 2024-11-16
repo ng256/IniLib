@@ -263,7 +263,15 @@ namespace System.Ini
                     using (IniFile iniFile = new IniFile(content, InternalSettings))
                     {
                         var value = iniFile[null, "encoding"];
-                        if (value != null) return Encoding.GetEncoding(value);
+                        if (value != null)
+                            try
+                            {
+                                return Encoding.GetEncoding(value);
+                            }
+                            catch
+                            {
+                                // If fails try to autodetect.
+                            }
                     }
                 }
             }
@@ -406,6 +414,7 @@ namespace System.Ini
         }
 
 
+        // Detects settings from an INI file if they are explicitly specified.
         internal static IniFileSettings LoadFromFile(string fileName)
         {
             string content = File.Exists(fileName) ? File.ReadAllText(fileName) : string.Empty;
@@ -415,8 +424,7 @@ namespace System.Ini
             return settings;
         }
 
-        // Detects settings from an INI file if they are explicitly specified.
-        internal static IniFileSettings Detect()
+        internal static IniFileSettings Load()
         {
             string fileName = IniFile.GetIniFileName();
             return LoadFromFile(fileName);
