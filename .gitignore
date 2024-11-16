@@ -365,3 +365,5 @@ FodyWeavers.xsd
 /Test/Messages.txt
 /Test/Regex.txt
 /Test/Messages.md
+/IniLib/Ini/JsonFile/Parser/JsonParserCached.cs.bak
+/IniLib/Ini/JsonFile/Parser/JsonParserQuickScan.cs.bak
