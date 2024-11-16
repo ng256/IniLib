@@ -78,7 +78,12 @@ namespace System.Ini
             {
                 StringComparison = this.StringComparison,
                 PrettyOutput = this.PrettyOutput,
-                Cached = this.Cached
+                Cached = this.Cached,
+                LineBreaker = this.LineBreaker,
+                AllowEscapeCharacters = this.AllowEscapeCharacters,
+                PropertyFilter = this.PropertyFilter,
+                Comparison = this.Comparison,
+                UseExtendedTypeConverters = this.UseExtendedTypeConverters
             };
         }
     }

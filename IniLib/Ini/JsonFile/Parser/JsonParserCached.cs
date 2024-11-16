@@ -77,7 +77,7 @@ namespace System.Ini
         {
             try
             {
-                var keys = path.Split('.');  // Split the path into individual keys
+                var keys = path.Split('/', '\\');  // Split the path into individual keys
                 var value = GetValueRecursive(_root, keys, 0);  // Get the value recursively based on the keys
 
 
@@ -104,7 +104,7 @@ namespace System.Ini
         {
             try
             {
-                var keys = path.Split('.');  // Split the path into individual keys
+                var keys = path.Split('/', '\\');  // Split the path into individual keys
                 var value = GetValueRecursive(_root, keys, 0);  // Get the value recursively
 
                 if (value is List<object> list)
@@ -142,7 +142,7 @@ namespace System.Ini
                 if (_allowEscapeChars && value != null)
                     value = value.ToEscape();
 
-                var keys = path.Split('.');  // Split the path into individual keys
+                var keys = path.Split('/', '\\');  // Split the path into individual keys
                 SetValueRecursive(_root, keys, 0, value);  // Set the value recursively based on the keys
             }
             catch
@@ -168,7 +168,7 @@ namespace System.Ini
                         values[i] = values[i].ToEscape();
                 }
 
-                var keys = path.Split('.');  // Split the path into individual keys
+                var keys = path.Split('/', '\\');  // Split the path into individual keys
                 SetValuesRecursive(_root, keys, 0, values);  // Set the values recursively based on the keys
             }
             catch

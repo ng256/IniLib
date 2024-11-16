@@ -614,7 +614,7 @@ namespace System.Ini
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
 
-            char[] chars = _parser.GetValue(section, key).ToCharArray();
+            char[] chars = _parser.GetValue(section, key, string.Empty).ToCharArray();
 
             if (chars.Length == 0 && defaultValues != null && defaultValues.Length > 0)
                 chars = defaultValues;
@@ -648,7 +648,7 @@ namespace System.Ini
             try
             {
                 // Convert the string values to a byte array using the configured encoding.
-                string value = _parser.GetValue(section, key);
+                string value = _parser.GetValue(section, key, string.Empty);
                 byte[] bytes = _bytesEncoding.GetBytes(value);
 
                 return bytes;
@@ -742,7 +742,7 @@ namespace System.Ini
                 return ReadBytes(section, key);
 
             if (elementType == typeof(char))
-                return _parser.GetValue(section, key).ToCharArray();
+                return _parser.GetValue(section, key, string.Empty).ToCharArray();
 
             // Get the values associated with the specified key.
             string[] values = _parser.GetValues(section, key).ToArray();

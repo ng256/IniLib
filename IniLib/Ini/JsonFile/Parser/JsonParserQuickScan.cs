@@ -81,7 +81,7 @@ namespace System.Ini
             try
             {
                 var root = ParseJson(Content);  // Parse the content into an object.
-                var keys = path.Split('.');  // Split the path into individual keys.
+                var keys = path.Split('/', '\\');  // Split the path into individual keys.
                 var value = GetValueRecursive(root, keys, 0);  // Get the value recursively based on the keys.
 
                 // Return the value or default if not found.
@@ -108,7 +108,7 @@ namespace System.Ini
             try
             {
                 var root = ParseJson(Content);  // Parse the content into an object
-                var keys = path.Split('.');  // Split the path into individual keys
+                var keys = path.Split('/', '\\');  // Split the path into individual keys
                 var value = GetValueRecursive(root, keys, 0);  // Get the value recursively
 
                 if (value is List<object> list)
@@ -147,7 +147,7 @@ namespace System.Ini
                     value = value.ToEscape();
                 
                 var root = ParseJson(Content);  // Parse the content into an object
-                var keys = path.Split('.');  // Split the path into individual keys
+                var keys = path.Split('/', '\\');  // Split the path into individual keys
                 SetValueRecursive(root, keys, 0, value);  // Set the value recursively based on the keys
                 Content = SerializeJson(root);  // Serialize the updated object back to JSON and store it
             }
@@ -175,7 +175,7 @@ namespace System.Ini
                 }
 
                 var root = ParseJson(Content);  // Parse the content into an object
-                var keys = path.Split('.');  // Split the path into individual keys
+                var keys = path.Split('/', '\\');  // Split the path into individual keys
                 SetValuesRecursive(root, keys, 0, values);  // Set the values recursively based on the keys
                 Content = SerializeJson(root);  // Serialize the updated object back to JSON and store it
             }

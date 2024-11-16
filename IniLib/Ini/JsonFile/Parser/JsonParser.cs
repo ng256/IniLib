@@ -20,7 +20,6 @@
 ***************************************************************/
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace System.Ini
@@ -58,7 +57,7 @@ namespace System.Ini
             _comparison = comparison;
             _prettyOutput = settings.PrettyOutput;
             _tokenRegex = new Regex(
-                @"(?<value>(?<bool>true)|(?<bool>false)|(?<null>null)|""(?<string>[^""\\]*(?:\\.[^""\\]*)*)""|(?<number>-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?))|(?<value_sep>:)|(?<array_open>\[)|(?<array_sep>,)|(?<array_close>\])|(?<object_open>{)|(?<object_close>})|(?<whitespace>\s)",
+                @"(?<value>(?<bool>true)|(?<bool>false)|(?<null>null)|""(?<string>[^""\\]*(?:\\.[^""\\]*)*)""|(?<number>-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?))|(?<value_sep>:)|(?<array_open>\[)|(?<array_sep>,)|(?<array_close>\])|(?<object_open>{)|(?<object_close>})|(?<whitespace>[^\S\r\n]+)|(?<newline>[\r\n]+)",
                 comparison.GetRegexOptions(RegexOptions.Compiled));
             _lineBreaker = settings.LineBreaker == LineBreakerStyle.Auto
                 ? content.AutoDetectLineBreakerEx().GetString()
@@ -276,12 +275,7 @@ namespace System.Ini
         {
             if (tokens.Count == 0) return null;
 
-            
-
-
             var token = tokens.Dequeue();
-
-
             if (token.Groups["null"].Success) return null;
             if (token.Groups["object_open"].Success) return ParseObject(tokens);
             if (token.Groups["array_open"].Success) return ParseArray(tokens);

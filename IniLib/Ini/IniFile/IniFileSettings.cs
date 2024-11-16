@@ -285,7 +285,6 @@ namespace System.Ini
             if (content.IsNullOrEmpty()) return settings;
             using (IniFile iniFile = new IniFile(content, InternalSettings))
             {
-                settings = DefaultSettings;
                 // Read various settings from the INI file with default values.
                 settings.AddMissingEntries = iniFile.ReadBoolean(null, "add_missing");
                 settings.ReadOnly = iniFile.ReadBoolean(null, "read_only");
@@ -407,9 +406,7 @@ namespace System.Ini
                     // Allow both by default.
                     settings.EntrySeparatorCharacter = IniFileEntrySeparatorCharacter.ColonOrEqual;
                 }
-
             }
-
             return settings;
         }
 
@@ -550,18 +547,19 @@ namespace System.Ini
         public override object Clone()
         {
             // Create a new instance of IniFileSettings
-            IniFileSettings clonedSettings = new IniFileSettings();
-
-            // Copy the properties of the current instance to the new instance
-            clonedSettings.CommentCharacter = this.CommentCharacter;
-            clonedSettings.EntrySeparatorCharacter = this.EntrySeparatorCharacter;
-            clonedSettings.ParsingMethod = this.ParsingMethod;
-            clonedSettings.Comparison = this.Comparison;
-            clonedSettings.AllowCommentsInEntries = this.AllowCommentsInEntries;
-            clonedSettings.AllowEscapeCharacters = this.AllowEscapeCharacters;
-            clonedSettings.AddMissingEntries = this.AddMissingEntries;
-            clonedSettings.ReadOnly = this.ReadOnly;
-            clonedSettings.UseExtendedTypeConverters = this.UseExtendedTypeConverters;
+            IniFileSettings clonedSettings = new IniFileSettings
+            {
+                // Copy the properties of the current instance to the new instance
+                CommentCharacter = this.CommentCharacter,
+                EntrySeparatorCharacter = this.EntrySeparatorCharacter,
+                ParsingMethod = this.ParsingMethod,
+                Comparison = this.Comparison,
+                AllowCommentsInEntries = this.AllowCommentsInEntries,
+                AllowEscapeCharacters = this.AllowEscapeCharacters,
+                AddMissingEntries = this.AddMissingEntries,
+                ReadOnly = this.ReadOnly,
+                UseExtendedTypeConverters = this.UseExtendedTypeConverters
+            };
 
             return clonedSettings;
         }
