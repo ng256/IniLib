@@ -148,7 +148,7 @@ namespace System.Ini
         public IniFileDictionary(string content, IniFileSettings settings) : base(settings)
         {
             if (settings == null)
-                settings = IniFileSettings._defaultSettings;
+                settings = IniFileSettings.InternalDefaultSettings;
 
             _comparer = settings.Comparer;
             _sections = new SortedDictionary<string, NameValueCollection>(_sections, _comparer);

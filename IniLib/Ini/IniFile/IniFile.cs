@@ -24,7 +24,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime;
 using System.Text;
 using static System.InternalTools;
 
@@ -64,7 +63,7 @@ namespace System.Ini
         #region Constructor
 
         // Initialize a new instance of the IniFile with the specified content and settings.
-        private IniFile(string content,  IniFileSettings settings) : base(settings)
+        internal IniFile(string content,  IniFileSettings settings) : base(settings)
         {
             _parser = settings.ParsingMethod == IniFileParsingMethod.ReformatFile
                 ? new IniFileDictionary(content, settings) as IniFileParser
@@ -178,7 +177,7 @@ namespace System.Ini
                 throw exception;
 
             if (settings == null)
-                settings = IniFileSettings.Detect(fileName);
+                settings = IniFileSettings.LoadFromFile(fileName);
 
             if (encoding == null)
                 encoding = IniFileSettings.DetectEncoding(fileName, Encoding.UTF8);

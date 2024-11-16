@@ -10,10 +10,8 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            IniFileSettings iniSettings = IniFileSettings.Detect();
-
             TestSettings test = new TestSettings();
-            using (var iniFile = IniFile.Load(iniSettings))
+            using (var iniFile = IniFile.Load())
             {
                 iniFile.ImportSettings(test);
             }
