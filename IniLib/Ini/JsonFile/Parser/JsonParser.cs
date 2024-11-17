@@ -240,10 +240,15 @@ namespace System.Ini
                 }
                 else
                 {
-                    if (!obj.ContainsKey(key) || !(obj[key] is Dictionary<string, object>))
+                    if (obj.TryGetValue(key, out object o) && !(o is Dictionary<string, object>))
                     {
                         obj[key] = new Dictionary<string, object>(_comparer);
                     }
+
+                    /*if (!(obj.ContainsKey(key) && obj[key] is Dictionary<string, object>))
+                    {
+                        obj[key] = new Dictionary<string, object>(_comparer);
+                    }*/
                     SetValuesRecursive(obj[key], keys, index + 1, values);
                 }
             }

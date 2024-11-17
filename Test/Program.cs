@@ -25,7 +25,7 @@ namespace Test
             string jcontent2 = jparser2.Content;
             bool flag = jcontent1 == jcontent2;
 
-            TestSettings test = new TestSettings();
+            TestClass test = new TestClass();
             using (var iniFile = IniFile.Load())
             {
                 iniFile.ImportSettings(test);

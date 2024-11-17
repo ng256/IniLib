@@ -5,7 +5,7 @@ using System.Text;
 namespace Test
 {
     [Section("settings")]
-    internal class TestSettings
+    internal class TestClass
     {
         public string Unknown { get; set; } // Unknown text
         public string Text { get; set; }  // Text value
@@ -21,7 +21,7 @@ namespace Test
 
         #region Additional tools
 
-        public TestSettings Default => new TestSettings
+        public TestClass Default => new TestClass
         {
             Unknown = "Some value",
             Text = "Hello, world!",
