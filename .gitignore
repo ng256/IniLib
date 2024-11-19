@@ -367,3 +367,5 @@ FodyWeavers.xsd
 /Test/Messages.md
 /IniLib/Ini/JsonFile/Parser/JsonParserCached.cs.bak
 /IniLib/Ini/JsonFile/Parser/JsonParserQuickScan.cs.bak
+/Test/Codepages.txt
+/IniLib/Ini/JsonFile/Parser/JsonParserQuickScan.cs
