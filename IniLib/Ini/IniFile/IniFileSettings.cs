@@ -28,16 +28,14 @@ namespace System.Ini
     ///		Represent a settings for parsing and formatting the ini file.
     /// </summary>
     [Serializable]
-    public class IniFileSettings : InitializerSettings
+    public sealed class IniFileSettings : TextFileSettings
     {
         private IniFileCommentCharacter _commentCharacter = IniFileCommentCharacter.SemicolonOrHash;
         private IniFileEntrySeparatorCharacter _entrySeparatorCharacter = IniFileEntrySeparatorCharacter.ColonOrEqual;
         private IniFileParsingMethod _parsingMethod = IniFileParsingMethod.PreserveOriginal;
         private bool _allowCommentsInEntries = true;
         private bool _addMissingEntries = false;
-        private bool _readOnly = false;
-        private LineBreakerStyle _lineBreaker = LineBreakerStyle.Auto;
-        private BytesEncoding _bytesEncoding = BytesEncoding.Hexadecimal;
+        private bool _allowMultiStringValues = false;
 
         #region Predefined common settings
 
@@ -162,38 +160,13 @@ namespace System.Ini
         }
 
         /// <summary>
-        ///		Specifies that writing values ​​to the ini file is not allowed.
+        ///     Allows the use of multi-line values.
         /// </summary>
-        public bool ReadOnly
+        public bool AllowMultiStringValues
         {
-            get => _readOnly;
-            set => _readOnly = value;
+            get => _allowMultiStringValues;
+            set => _allowMultiStringValues = value;
         }
-
-        /// <summary>
-        ///		The newline characters to be used in the ini file.
-        /// </summary>
-        public LineBreakerStyle LineBreaker
-        {
-            get => _lineBreaker;
-            set => _lineBreaker = value;
-        }
-
-        /// <summary>
-        ///     Specifies encoding style for binary data. 
-        /// </summary>
-        public BytesEncoding BytesEncoding
-        {
-            get => _bytesEncoding;
-            set => _bytesEncoding = value;
-        }
-
-        /// <summary>
-        ///		Specifies a regular expression options
-        ///     based on <see cref="InitializerSettings.Comparison"/> property
-        ///     to be used by <see cref="IniFileParser"/> object.
-        /// </summary>
-        public RegexOptions RegexOptions => Comparison.GetRegexOptions(RegexOptions.Compiled);
 
         #endregion
 
@@ -210,9 +183,8 @@ namespace System.Ini
         /// <param name="comparison">
         ///		String comparison specifier.
         /// </param>
-        public IniFileSettings(StringComparison comparison)
+        public IniFileSettings(StringComparison comparison) : base(comparison)
         {
-            Comparison = comparison;
         }
 
         /// <summary>
@@ -237,47 +209,14 @@ namespace System.Ini
         /// <param name="comparison">
         ///		String comparison specifier.
         /// </param>
-        public IniFileSettings(IniFileParsingMethod parsingMethod, StringComparison comparison)
+        public IniFileSettings(IniFileParsingMethod parsingMethod, StringComparison comparison) : base(comparison)
         {
             ParsingMethod = parsingMethod;
-            Comparison = comparison;
         }
 
         #endregion
 
         #region Methods
-
-        internal static Encoding DetectEncoding(Encoding defaultEncoding = null)
-        {
-            return DetectEncoding(IniFile.GetIniFileName(), defaultEncoding);
-        }
-
-        // Determines the encoding from the INI file if it is explicitly specified in the file entry or in the BOM.
-        internal static Encoding DetectEncoding(string fileName, Encoding defaultEncoding = null)
-        {
-            if (File.Exists(fileName))
-            {
-                string content = File.ReadAllText(fileName);
-                if (content.Length > 0)
-                {
-                    using (IniFile iniFile = new IniFile(content, InternalSettings))
-                    {
-                        var value = iniFile[null, "encoding"];
-                        if (value != null)
-                            try
-                            {
-                                return Encoding.GetEncoding(value);
-                            }
-                            catch
-                            {
-                                // If fails try to autodetect.
-                            }
-                    }
-                }
-            }
-
-            return InternalTools.AutoDetectEncoding(fileName, defaultEncoding ?? Encoding.UTF8);
-        }
 
         internal static IniFileSettings LoadFromContent(string content)
         {
@@ -427,6 +366,12 @@ namespace System.Ini
             return LoadFromFile(fileName);
         }
 
+        // Create a regular expression object.
+        internal Regex CreateRegex()
+        {
+            return new Regex(GetRegexPattern(), RegexOptions);
+        }
+
         // Generates a regular expression pattern that can match various ini file formats.
         internal string GetRegexPattern()
         {
@@ -523,14 +468,25 @@ namespace System.Ini
                 }
             }
 
-            // Continue building the pattern for entries and other undefined content.
-            sb.Append("\\r\\n]*))|" +
-                      "(?<undefined>.+)" +
-                      ")" +
-                      "(?<=\\S)|" +
+            if (AllowMultiStringValues)
+            {
+                // Continue building the pattern for undefined content.
+                sb.Append("\\r\\n]*))|" +
+                          "(?<entry>(?<value>.+))" +
+                          ")" +
+                          "(?<=\\S)|");  
+            }
+            else
+            {
+                // Continue building the pattern for entries content.
+                sb.Append("\\r\\n]*))|" +
+                          "(?<undefined>.+)" +
+                          ")" +
+                          "(?<=\\S)|");
+            }
 
             // Building the white spaces pattern.
-                      "(?<linebreaker>\\r\\n|\\n)|" +
+            sb.Append("(?<linebreaker>\\r\\n|\\n)|" +
                       "(?<whitespace>[^\\S\\r\\n]+)");
 
             // Return the generated regular expression pattern

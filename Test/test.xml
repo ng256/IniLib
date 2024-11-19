@@ -1,4 +1,4 @@
-﻿<Configuration>
+﻿<Configuration> <!-- comment -->
 	<Settings>
 		<text>Hello,\nworld!</text>
 		<decnumber>1024</decnumber>

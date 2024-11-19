@@ -52,8 +52,8 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyright("© Pavel Bashkardin 2022-2024")] // Copyright.
 //[assembly: AssemblyTrademark("Pavel Bashkardin® Multi-Source Initialization Library®")] // Trademark.
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("1.0.2411.0006")]
-[assembly: AssemblyFileVersion("1.0.2411.0006")]
+[assembly: AssemblyVersion("1.0.2411.0007")]
+[assembly: AssemblyFileVersion("1.0.2411.0007")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 [assembly: InternalsVisibleTo("Test")]

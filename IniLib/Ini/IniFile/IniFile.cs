@@ -33,20 +33,16 @@ namespace System.Ini
     ///     Represents the configuration file that contains the application settings
     ///     that are presented in the form of key-value pairs and wrapped into different sections.
     /// </summary>
-    [Serializable]
+    
     [DebuggerDisplay("{Content}")]
     public class IniFile : Initializer
     {
-        [NonSerialized]
         private readonly IniFileParser _parser;
 
         // Encoding used to encode and decode binary data.
-        [NonSerialized]
         private BaseEncoding _bytesEncoding;
 
         private PropertyFilter _filter;
-
-        private IniFileParser Parser => _parser ?? throw new ObjectDisposedException(nameof(IniFile));
 
         /// <summary>
         ///     Returns text content of the current <see cref="IniFile"/> instance.
@@ -146,6 +142,33 @@ namespace System.Ini
             return newFilePath;
         }
 
+        // Determines the encoding from the INI file if it is explicitly specified in the file entry or in the BOM.
+        internal static Encoding DetectEncoding(string fileName, Encoding defaultEncoding = null)
+        {
+            if (File.Exists(fileName))
+            {
+                string content = File.ReadAllText(fileName);
+                if (content.Length > 0)
+                {
+                    using (IniFile iniFile = new IniFile(content, IniFileSettings.InternalSettings))
+                    {
+                        var value = iniFile[null, "encoding"];
+                        if (value != null)
+                            try
+                            {
+                                return Encoding.GetEncoding(value);
+                            }
+                            catch
+                            {
+                                // If fails try to autodetect.
+                            }
+                    }
+                }
+            }
+
+            return InternalTools.AutoDetectEncoding(fileName, defaultEncoding ?? Encoding.UTF8);
+        }
+
         /// <summary>
         ///     Loads content from the specified file and create an <see cref="IniFile"/> instance.
         /// </summary>
@@ -180,7 +203,7 @@ namespace System.Ini
                 settings = IniFileSettings.LoadFromFile(fileName);
 
             if (encoding == null)
-                encoding = IniFileSettings.DetectEncoding(fileName, Encoding.UTF8);
+                encoding = DetectEncoding(fileName, Encoding.UTF8);
 
             string content = File.ReadAllText(filePath, encoding);
             return new IniFile(content, settings);
@@ -691,6 +714,9 @@ namespace System.Ini
                 throw new ArgumentNullException(nameof(key));
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
+
+            if (type == typeof(string))
+                return _parser.GetValue(section, key) ?? defaultValue;
 
             // If the type is an array, read the array values.
                 if (type.IsArray)

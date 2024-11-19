@@ -43,7 +43,13 @@ namespace System.Ini
         // Returns the content of the ini file.
         public override string Content
         {
-            get => _content ?? (_content = string.Empty);
+            get
+            {
+                lock (_content)
+                {
+                    return _content ?? (_content = string.Empty);
+                }
+            }
 
             set
             {
@@ -65,7 +71,7 @@ namespace System.Ini
             lock (settings)
             {
                 _content = content ?? string.Empty;
-                _regex = new Regex(settings.GetRegexPattern(), settings.RegexOptions);
+                _regex = settings.CreateRegex();
                 _allowEscapeChars = settings.AllowEscapeCharacters;
                 _addMissingEntries = settings.AddMissingEntries;
                 _delimiter = settings.EntrySeparatorCharacter == IniFileEntrySeparatorCharacter.Colon ? ':' : '=';
@@ -141,7 +147,10 @@ namespace System.Ini
         public override string GetValue(string section, string key, string defaultValue = null)
         {
             StringComparison comparison = Comparison;
-            string value = defaultValue;
+            string value = _allowEscapeChars && !defaultValue.IsNullOrEmpty() 
+                ? defaultValue.ToEscape()
+                : defaultValue;
+
             bool emptySection = section.IsNullOrEmpty();
             bool inSection = emptySection;
 
@@ -249,6 +258,7 @@ namespace System.Ini
         }
 
         // Sets the value of a specific key in a specific section.
+        // If null value is passed, the value will just be removed.
         public override void SetValue(string section, string key, string value)
         {
             if (ReadOnly) return;
@@ -292,18 +302,15 @@ namespace System.Ini
                     int index = group.Index;
                     int length = group.Length;
 
-                    // If null is passed, the value will just be removed.
                     if (expectedValue)
                     {
-                        // Remove the old value.
+                        // Remove the old value and insert the new value in its place..
                         sb.Remove(index, length);
-
-                        // Insert the new value in its place.
                         sb.Insert(index, value);
                     }
                     else
                     {
-                        // Remove all entry.
+                        // Remove entire entry.
                         sb.Remove(match.Index, match.Length);
                     }
 
@@ -356,7 +363,6 @@ namespace System.Ini
 
             // Offset to account for changes in length during replacements.
             int offset = 0;
-
 
             // Keep track of the last regex match found.
             Match lastMatch = null;  

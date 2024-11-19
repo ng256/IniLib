@@ -20,20 +20,43 @@ namespace System.Ini
     ///     It allows customization of comparison modes, pretty output,
     ///     and other parsing-related configurations.
     /// </summary>
-    public class JsonFileSettings : InitializerSettings
+    public sealed class JsonFileSettings : TextFileSettings
     {
         internal static JsonFileSettings InternalDefaultSettings = new JsonFileSettings();
-        private LineBreakerStyle _lineBreaker = LineBreakerStyle.Auto;
-        private StringComparison _stringComparison = StringComparison.InvariantCultureIgnoreCase;
         private bool _prettyOutput = true;
-        private bool _cached = false;
 
-        // The default string comparison method to use
-        public StringComparison StringComparison
-        {
-            get => _stringComparison;
-            set => _stringComparison = value;
-        }
+        /// <summary>
+        ///		JSON file settings that are suitable for most tasks and are used by default.
+        /// </summary>
+        public static JsonFileSettings DefaultSettings
+            => (JsonFileSettings)InternalDefaultSettings.Clone();
+
+        /// <summary>
+        ///		Initializes settings using the specified string comparison with invariant culture.
+        /// </summary>
+        public static JsonFileSettings InvariantCulture
+            => new JsonFileSettings(StringComparison.InvariantCulture);
+
+        /// <summary>
+        ///		Initializes settings using the specified string comparison
+        ///		with invariant culture and ignore case.
+        /// </summary>
+        public static JsonFileSettings InvariantCultureIgnoreCase
+            => new JsonFileSettings(StringComparison.InvariantCultureIgnoreCase);
+
+        /// <summary>
+        ///		Initializes settings using the specified string comparison
+        ///		with current culture.
+        /// </summary>
+        public static JsonFileSettings CurrentCulture
+            => new JsonFileSettings(StringComparison.CurrentCulture);
+
+        /// <summary>
+        ///		Initializes settings using the specified string comparison
+        ///		with current culture and ignore case.
+        /// </summary>
+        public static JsonFileSettings CurrentCultureIgnoreCase
+            => new JsonFileSettings(StringComparison.CurrentCultureIgnoreCase);
 
         /// <summary>
         ///     Flag to enable or disable pretty printing (indentation) of JSON output.
@@ -45,45 +68,35 @@ namespace System.Ini
         }
 
         /// <summary>
-        ///     Flag to allow caching of the parsed JSON data.
+        ///     Initializes a new instance of the <see cref="JsonFileSettings"/> class.
         /// </summary>
-        public bool Cached
-        {
-            get => _cached;
-            set => _cached = value;
-        } // By default, caching is disabled
-
-        /// <summary>
-        ///		The newline characters to be used in the JSON file.
-        /// </summary>
-        public LineBreakerStyle LineBreaker
-        {
-            get => _lineBreaker;
-            set => _lineBreaker = value;
-        }
-
-        // Constructor to initialize with default settings.
         public JsonFileSettings() : base()
         {
-
         }
 
         /// <summary>
-        /// Method to clone the current settings (deep copy).
+        ///     Initializes a new instance of the <see cref="JsonFileSettings"/> class.
         /// </summary>
-        /// <returns>A new JsonParserSettings object with the same settings.</returns>
+        /// <param name="comparison">String comparison specifier.</param>
+        public JsonFileSettings(StringComparison comparison) : base(comparison)
+        {
+        }
+
+        /// <summary>
+        ///     Method to clone the current settings (deep copy).
+        /// </summary>
+        /// <returns>A new <see cref="JsonFileSettings"/> object with the same settings.</returns>
         public override object Clone()
         {
-            return new JsonFileSettings
+            return new 
             {
-                StringComparison = this.StringComparison,
                 PrettyOutput = this.PrettyOutput,
-                Cached = this.Cached,
                 LineBreaker = this.LineBreaker,
                 AllowEscapeCharacters = this.AllowEscapeCharacters,
                 PropertyFilter = this.PropertyFilter,
                 Comparison = this.Comparison,
-                UseExtendedTypeConverters = this.UseExtendedTypeConverters
+                UseExtendedTypeConverters = this.UseExtendedTypeConverters,
+                ReadOnly = this.ReadOnly
             };
         }
     }

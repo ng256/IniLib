@@ -1,4 +1,5 @@
-﻿Settings:
+﻿Settings: # comment
+  flag: true
   text: "Hello,\nworld!"
   decnumber: 1024
   hexnumber: "0x1FFF"

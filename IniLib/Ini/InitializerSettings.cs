@@ -13,6 +13,8 @@
 
 ***************************************************************/
 
+using System.Text.RegularExpressions;
+
 namespace System.Ini
 {
     /// <summary>
@@ -24,12 +26,24 @@ namespace System.Ini
         private bool _allowEscapeCharacters = false;
         private bool _useExtendedTypeConverters = true;
         private PropertyFilter _propertyFilter = PropertyFilter.AllProperties;
+        private BytesEncoding _bytesEncoding = BytesEncoding.Hexadecimal;
 
         /// <summary>
         ///     Initialize a new instance of the <see cref="InitializerSettings"/> class.
         /// </summary>
         protected InitializerSettings()
         {
+        }
+
+        /// <summary>
+        ///     Initialize a new instance of the <see cref="InitializerSettings"/> class.
+        /// </summary>
+        /// <param name="comparison">
+        ///     String comparison specifier.
+        /// </param>
+        protected InitializerSettings(StringComparison comparison)
+        {
+            _comparison = comparison;
         }
 
         /// <summary>
@@ -70,6 +84,23 @@ namespace System.Ini
             get => _propertyFilter;
             set => _propertyFilter = value;
         }
+
+        /// <summary>
+        ///     Specifies encoding style for binary data. 
+        /// </summary>
+        public BytesEncoding BytesEncoding
+        {
+            get => _bytesEncoding;
+            set => _bytesEncoding = value;
+        }
+
+
+        /// <summary>
+        ///		Specifies a regular expression options
+        ///     based on <see cref="InitializerSettings.Comparison"/> property
+        ///     to be used by <see cref="IniFileParser"/> object.
+        /// </summary>
+        public RegexOptions RegexOptions => Comparison.GetRegexOptions(RegexOptions.Compiled);
 
         /// <summary>
         ///		Specifies a string comparison operation

@@ -155,7 +155,7 @@ namespace System.Ini
             _allowEscapeChars = settings.AllowEscapeCharacters;
             _addMissingEntries = settings.AddMissingEntries;
             _delimiter = settings.EntrySeparatorCharacter == IniFileEntrySeparatorCharacter.Colon ? ':' : '=';
-            _regex = new Regex(settings.GetRegexPattern(), settings.RegexOptions);
+            _regex = settings.CreateRegex();
             _lineBreaker = settings.LineBreaker == LineBreakerStyle.Auto
                 ? content.AutoDetectLineBreaker().GetString()
                 : settings.LineBreaker.GetString();

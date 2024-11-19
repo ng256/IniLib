@@ -13,7 +13,7 @@ namespace Test
         {
             JsonFileSettings jsettings = new JsonFileSettings {AllowEscapeCharacters = true};
             string source = File.ReadAllText("test.json");
-            JsonParserQuickScan jparser1 = new JsonParserQuickScan(source, jsettings);
+            JsonParserCached jparser1 = new JsonParserCached(source, jsettings);
             JsonParserCached jparser2 = new JsonParserCached(source, jsettings);
             string unknown1 = jparser1.GetValue("Settings.text", "text");
             string text1 = jparser1.GetValue("Settings.text", "text");

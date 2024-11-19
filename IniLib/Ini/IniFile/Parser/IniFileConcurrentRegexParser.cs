@@ -90,7 +90,7 @@ namespace System.Ini
             lock (settings)
             {
                 _content = content ?? string.Empty;
-                _regex = new Regex(settings.GetRegexPattern(), settings.RegexOptions);
+                _regex = settings.CreateRegex();
                 _allowEscapeChars = settings.AllowEscapeCharacters;
                 _addMissingEntries = settings.AddMissingEntries;
                 _delimiter = settings.EntrySeparatorCharacter == IniFileEntrySeparatorCharacter.Colon ? ':' : '=';

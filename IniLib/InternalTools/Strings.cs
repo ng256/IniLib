@@ -427,30 +427,6 @@ namespace System
             return string.IsNullOrEmpty(s);
         }
 
-        /*// Allows you to combine strings into one line, separating them with spaces.
-        internal static string Concat(params string[] items)
-        {
-            return new StringDelimiter(items).ToString(delimiter: ' ');
-        }
-
-        // Allows you to concatenate strings into one string with a specified delimiter between the items.
-        internal static string Concat(char delimiter, params string[] items)
-        {
-            return new StringDelimiter(items).ToString(delimiter);
-        }
-
-        // Allows you to concatenate strings into one string with a specified delimiter between the items.
-        internal static string Concat(char delimiter, params object[] items)
-        {
-            return new StringDelimiter(items).ToString(delimiter);
-        }
-
-        // Allows you to concatenate strings into one string with a specified delimiter between the items.
-        internal static string Concat(char delimiter, IEnumerable<string> items)
-        {
-            return new StringDelimiter(items).ToString(delimiter);
-        }*/
-
         // Returns a substring of a specified number of characters, starting from the beginning of the string.
         internal static string SubstringLeft(this string s, int length)
         {
@@ -651,6 +627,9 @@ namespace System
                             break;
                         case 'v':
                             c = '\v';
+                            break;
+                        case 's':
+                            c = ' ';
                             break;
                         case 'u' when pos < inputLength - 3:
                             c = UnHex(text.Substring(++pos, 4));

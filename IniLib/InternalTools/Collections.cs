@@ -31,6 +31,20 @@ namespace System
 {
     internal static partial class InternalTools
     {
+        public static bool TryDequeue<T>(this Queue<T> queue, out T result)
+        {
+            // Ensure the queue is not null and has items
+            if (queue != null && queue.Count > 0)
+            {
+                result = queue.Dequeue();
+                return true;
+            }
+
+            // If the queue is empty or null, return the default value
+            result = default(T);
+            return false;
+        }
+
         // Returns the maximum possible length to retrieve elements from an array, starting at a specified position.
         internal static int GetMaxCount<T>(this T[] array, int startIndex, int count)
         {
