@@ -65,8 +65,8 @@ namespace System.Text
             {
                 // Decode each byte into a pair of characters.
                 byte value = bytes[byteIndex++];
-                chars[charIndex++] = GeDigit(value / 16);
-                chars[charIndex++] = GeDigit(value % 16);
+                chars[charIndex++] = GetDigit((value >> 4) & 0xF); // Extract the high nibble
+                chars[charIndex++] = GetDigit(value & 0xF);        // Extract the low nibble
             }
             return charIndex - startCharIndex;
         }
