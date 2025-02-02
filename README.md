@@ -1,50 +1,35 @@
-# IniLib
+# 📜 IniLib
 
-IniLib is a lightweight and efficient INI file parser and handler for .NET. It provides a flexible way to read and write configuration data from INI files using regular expressions while preserving the original formatting.
+IniLib is a library for initializing application parameters from various sources. The project is under active development and has not yet reached the alpha version.
 
-## Features
-- **INI file parsing**: Reads and parses INI files into sections and entries.
-- **Customizable behavior**: Allows customization of string comparison, escape character usage, and multi-line values.
-- **Preservation of formatting**: Ensures that original INI file formatting (comments, line breaks) is retained when making changes.
-- **Attributes for easy configuration mapping**: Provides `IniSectionAttribute` and `IniEntryAttribute` for mapping INI sections and entries to .NET classes and properties.
-- **Cross-platform**: Works across different platforms using .NET.
+## 🔧 Features
+- 📂 Load configuration from:
+  - INI files
+  - JSON files
+  - YAML files
+  - Windows Registry
+  - Win32 DLL resources
+  - .NET assembly resources
+  - Command-line arguments
+- 💾 Save parameters back to files while preserving original formatting
+- 🏗️ Modular and extensible architecture
 
-## Installation
-You can install the latest version of IniLib via NuGet Package Manager or by directly referencing the library in your project.
+## 🚀 Usage
+(...)
 
-```bash
-Install-Package IniLib
-```
+## 🛠️ Installation
+No installation required. Simply add a reference to the IniLib DLL in your project.
 
-## Usage
+## 📌 Roadmap
+- Implement parameter loading from all supported sources
+- Add parameter writing with format preservation
+- Provide a stable API for integration
+- Improve documentation and usage examples
 
-### Reading INI file data:
-```csharp
-using System.Ini;
-var iniFile = IniFile.Load("config.ini");
-string sectionValue = iniFile.GetSection("SectionName")["EntryName"];
-```
+## ⚠ Status
+This project is still in early development, and breaking changes are expected.
 
-### Writing INI file data:
-```csharp
-using System.Ini;
-var iniFile = IniFile.Load("config.ini");
-iniFile["SectionName", "EntryName"] = "NewValue";
-iniFile.Save("config.ini");
-```
-
-### Working with attributes:
-Use **IniSectionAttribute** and **IniEntryAttribute** to map INI data to properties:
-```csharp
-[IniSection("SectionName")]
-public class MyConfig
-{
-    [IniEntry("EntryName")]
-    public string EntryValue { get; set; }
-}
-```
-
-## License
+## 📜 License
 **IniLib** is licensed under the MIT License.
 
 © 2024 Pavel Bashkardin
